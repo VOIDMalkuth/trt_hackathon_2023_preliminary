@@ -1,15 +1,20 @@
 .idea/
 
+outs/
+
 training/
 lightning_logs/
 image_log/
 test_imgs/
 torch_baseline_imgs/
+onnx_models/
 
 *.pth
 *.pt
 *.ckpt
 *.safetensors
+
+*.plan
 
 gradio_pose2image_private.py
 gradio_canny2image_private.py
