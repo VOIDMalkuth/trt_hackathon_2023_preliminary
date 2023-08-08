@@ -5,6 +5,9 @@ import random
 
 from cldm.model import create_model, load_state_dict
 
+import warnings
+warnings.filterwarnings('ignore')
+
 IMAGE_HINT_SHAPE=(1, 3, 256, 384)
 X_NOISY_SHAPE=(1, 4, 32, 48)
 CONTEXT_SHAPE=(1, 77, 768)
@@ -28,8 +31,8 @@ def export_controlnet_onnx(control_ldm_model):
 
     outs = controlnet_model(x=x_noisy, hint=hint, timesteps=timesteps, context=context)
 
-    print(type(outs))
-    print(len(outs))
+    # print(type(outs))
+    # print(len(outs))
 
     torch.onnx.export(
         controlnet_model,
@@ -62,8 +65,8 @@ def export_unet_onnx(control_ldm_model):
     # need to change model to enable_grad
     outs = unet_model(x=x_noisy, timesteps=timesteps, context=context, control=control, only_mid_control=False)
 
-    print(type(outs))
-    print(outs.shape)
+    # print(type(outs))
+    # print(outs.shape)
 
     torch.onnx.export(
         unet_model,

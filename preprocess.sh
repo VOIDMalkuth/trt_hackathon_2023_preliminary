@@ -3,7 +3,7 @@ rm -rf onnx_models
 mkdir -p onnx_models
 mkdir -p onnx_models/controlnet
 mkdir -p onnx_models/unet
-PYTHONPATH=$PWD python3 hackathon/tools/export_onnx.py &> /dev/null
+PYTHONPATH=$PWD python3 hackathon/tools/export_onnx.py
 
 onnxsim onnx_models/controlnet/controlnet_static_shape.onnx onnx_models/controlnet/controlnet_static_shape.onnx &> /dev/null
 onnxsim onnx_models/unet/unet_static_shape.onnx onnx_models/unet/unet_static_shape.onnx &> /dev/null
