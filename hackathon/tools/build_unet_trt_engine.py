@@ -19,13 +19,13 @@ def build_unet_trt_engine():
     ONNX_FILE_PATH = "unet_static_shape.onnx"
     TRT_ENGINE_PATH = "trt_unet_batch_1.plan"
 
-    logger = trt.Logger(trt.Logger.VERBOSE)
+    logger = trt.Logger(trt.Logger.ERROR)
     builder = trt.Builder(logger)
     config = builder.create_builder_config()
 
     # modif config
     config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 32)
-    config.builder_optimization_level = 5
+    # config.builder_optimization_level = 3
     config.set_flag(trt.BuilderFlag.FP16)
     
     network = builder.create_network(1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH))

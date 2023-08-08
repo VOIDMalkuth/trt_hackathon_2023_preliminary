@@ -17,7 +17,7 @@ def build_controlnet_trt_engine():
     ONNX_FILE_PATH = "onnx_models/controlnet/controlnet_static_shape.onnx"
     TRT_ENGINE_PATH = "trt_controlnet_batch_1.plan"
 
-    logger = trt.Logger(trt.Logger.VERBOSE)
+    logger = trt.Logger(trt.Logger.ERROR)
     builder = trt.Builder(logger)
     config = builder.create_builder_config()
 
