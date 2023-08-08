@@ -1,0 +1,24 @@
+x_noisy.shape: torch.Size([1, 4, 32, 48]) x_noisy.dtype:  torch.float32
+hint.shape: torch.Size([1, 3, 256, 384]) hint.dtype:  torch.float32
+timesteps: tensor(151, device='cuda:0') ; tensor([151], device='cuda:0') ; torch.int64
+context.shape torch.Size([1, 77, 768]) context.dtype torch.float32
+
+control.len 13
+0, control[i].shape torch.Size([1, 320, 32, 48]) control[i].dtype torch.float32
+1, control[i].shape torch.Size([1, 320, 32, 48]) control[i].dtype torch.float32
+2, control[i].shape torch.Size([1, 320, 32, 48]) control[i].dtype torch.float32
+3, control[i].shape torch.Size([1, 320, 16, 24]) control[i].dtype torch.float32
+4, control[i].shape torch.Size([1, 640, 16, 24]) control[i].dtype torch.float32
+5, control[i].shape torch.Size([1, 640, 16, 24]) control[i].dtype torch.float32
+6, control[i].shape torch.Size([1, 640, 8, 12]) control[i].dtype torch.float32
+7, control[i].shape torch.Size([1, 1280, 8, 12]) control[i].dtype torch.float32
+8, control[i].shape torch.Size([1, 1280, 8, 12]) control[i].dtype torch.float32
+9, control[i].shape torch.Size([1, 1280, 4, 6]) control[i].dtype torch.float32
+10, control[i].shape torch.Size([1, 1280, 4, 6]) control[i].dtype torch.float32
+11, control[i].shape torch.Size([1, 1280, 4, 6]) control[i].dtype torch.float32
+12, control[i].shape torch.Size([1, 1280, 4, 6]) control[i].dtype torch.float32
+
+hint：图片大小
+x_noisy：(4, H // 8, W // 8)
+timesteps：(batch,)
+context：batch，seqlen，768（hiddensize）

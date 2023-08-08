@@ -14,8 +14,6 @@ from annotator.canny import CannyDetector
 from cldm.model import create_model, load_state_dict
 from cldm.ddim_hacked import DDIMSampler
 
-from hackathon.trt_drivers.controlnet_trt import ControlNetTRT
-from hackathon.trt_drivers.unet_trt import UNetTRT
 
 class hackathon():
 
@@ -24,14 +22,6 @@ class hackathon():
         self.model = create_model('./models/cldm_v15.yaml').cpu()
         self.model.load_state_dict(load_state_dict('./models/control_sd15_canny.pth', location='cuda'))
         self.model = self.model.cuda()
-
-        controlnet_trt = ControlNetTRT("trt_controlnet_batch_1.plan")
-        unet_trt = UNetTRT("trt_unet_batch_1.plan")
-        self.model.updateTrtEngines({
-            "ControlNet": controlnet_trt,
-            "UNet": unet_trt,
-        })
-
         self.ddim_sampler = DDIMSampler(self.model)
 
 

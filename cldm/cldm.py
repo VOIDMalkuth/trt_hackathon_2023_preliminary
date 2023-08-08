@@ -314,6 +314,9 @@ class ControlLDM(LatentDiffusion):
         self.only_mid_control = only_mid_control
         self.control_scales = [1.0] * 13
 
+        self.controlnet_trt = None
+        self.unet_trt = None
+
     @torch.no_grad()
     def get_input(self, batch, k, bs=None, *args, **kwargs):
         x, c = super().get_input(batch, self.first_stage_key, *args, **kwargs)
@@ -334,9 +337,27 @@ class ControlLDM(LatentDiffusion):
         if cond['c_concat'] is None:
             eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=None, only_mid_control=self.only_mid_control)
         else:
-            control = self.control_model(x=x_noisy, hint=torch.cat(cond['c_concat'], 1), timesteps=t, context=cond_txt)
+            hint = torch.cat(cond['c_concat'], 1)
+            # print("x_noisy.shape:", x_noisy.shape, "x_noisy.dtype: ", x_noisy.dtype)
+            # print("hint.shape:", hint.shape, "hint.dtype: ", hint.dtype)
+            # print("timesteps:", t[0], ";", t, ";", t.dtype)
+            # print("context.shape", cond_txt.shape, "context.dtype", cond_txt.dtype)
+            if self.controlnet_trt is not None:
+                control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=t, context=cond_txt)
+            else:
+                control = self.control_model(x=x_noisy, hint=hint, timesteps=t, context=cond_txt)
+            
             control = [c * scale for c, scale in zip(control, self.control_scales)]
-            eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
+            # print("control.len", len(control))
+            # for i in range(len(control)):
+            #     print(str(i) + ", control[i].shape", control[i].shape, "control[i].dtype", control[i].dtype)
+            # print("only_mid_control: ", self.only_mid_control)
+            
+            if self.unet_trt is not None:
+                eps = self.unet_trt(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
+            else:
+                eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
+            # print("eps.shape", eps.shape, "eps.dtype", eps.dtype)
 
         return eps
 
@@ -433,3 +454,7 @@ class ControlLDM(LatentDiffusion):
             self.control_model = self.control_model.cpu()
             self.first_stage_model = self.first_stage_model.cuda()
             self.cond_stage_model = self.cond_stage_model.cuda()
+
+    def updateTrtEngines(self, engines):
+        self.controlnet_trt = engines.get("ControlNet", self.controlnet_trt)
+        self.unet_trt = engines.get("UNet", self.unet_trt)
