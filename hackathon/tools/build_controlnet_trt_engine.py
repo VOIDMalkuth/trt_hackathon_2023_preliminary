@@ -36,7 +36,7 @@ def build_controlnet_trt_engine():
             for error in range(parser.num_errors):
                 print(parser.get_error(error))
             exit(-1)
-    print("Succeeded parsing .onnx file!")
+    # print("Succeeded parsing .onnx file!")
 
     input_x_noisy = network.get_input(0)
     input_hint = network.get_input(1)
@@ -53,12 +53,12 @@ def build_controlnet_trt_engine():
     if engine_buf == None:
         print("failed to build engine!")
         exit(-1)
-    print("Succeeded building engine!")
+    # print("Succeeded building engine!")
 
     with open(TRT_ENGINE_PATH, "wb") as f:
         f.write(engine_buf)
 
-    print("Succeeded building and serializing trt engine for controlnet!")
+    # print("Succeeded building and serializing trt engine for controlnet!")
 
 if __name__ == "__main__":
     build_controlnet_trt_engine()
