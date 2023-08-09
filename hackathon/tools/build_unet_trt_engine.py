@@ -25,7 +25,7 @@ def build_unet_trt_engine():
 
     # modif config
     config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 32)
-    # config.builder_optimization_level = 3
+    config.builder_optimization_level = 5
     config.set_flag(trt.BuilderFlag.FP16)
     
     network = builder.create_network(1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH))
