@@ -15,6 +15,10 @@ onnx_models/
 *.safetensors
 
 *.plan
+time_cache.dat
+
+*.jpg
+*.nsys-rep
 
 gradio_pose2image_private.py
 gradio_canny2image_private.py
