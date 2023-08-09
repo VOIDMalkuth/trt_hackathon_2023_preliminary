@@ -16,16 +16,16 @@ def torch_dtype_from_trt(dtype):
     else:
         raise TypeError('%s is not supported by torch' % dtype)
 
-class UNetTRT(object):
+class TRTDriver(object):
     def __init__(self, trt_engine_path):
         self.logger = trt.Logger(trt.Logger.VERBOSE)
         
-        print("Deserializing unet_trt engine...")
+        print("Deserializing controlnet_trt engine...")
         trt.init_libnvinfer_plugins(None, "")
         with open(trt_engine_path, "rb") as f:
             engine_buf = f.read()
         self.engine = trt.Runtime(self.logger).deserialize_cuda_engine(engine_buf)
-        print("Succeed deserializing unet_trt engine!")
+        print("Succeed deserializing controlnet_trt engine!")
 
         self.context = self.engine.create_execution_context()
 
@@ -35,7 +35,7 @@ class UNetTRT(object):
         self.nOutput = self.nIO - self.nInput
 
         for i in range(self.nIO):
-            print("unet_trt [%2d]%s->" % (i, "Input " if i < self.nInput else "Output"), self.engine.get_tensor_dtype(self.lTensorName[i]), self.engine.get_tensor_shape(self.lTensorName[i]), self.context.get_tensor_shape(self.lTensorName[i]), self.lTensorName[i])
+            print("controlnet_trt [%2d]%s->" % (i, "Input " if i < self.nInput else "Output"), self.engine.get_tensor_dtype(self.lTensorName[i]), self.engine.get_tensor_shape(self.lTensorName[i]), self.context.get_tensor_shape(self.lTensorName[i]), self.lTensorName[i])
 
         print("Setting up IO buffers...")
         self.buffersD = []
@@ -52,7 +52,7 @@ class UNetTRT(object):
             self.context.set_tensor_address(self.lTensorName[i], int(self.buffersD[i]))
         print("Succeed setting up IO buffers!")
 
-        print("unet_trt engine init finished!")
+        print("Controlnet_trt engine init finished!")
 
 
     def do_inference(self, inputBuffers):
@@ -74,7 +74,27 @@ class UNetTRT(object):
     
     def cuda():
         pass
-    
+
+    def deinitialize(self):
+        for b in self.buffersD:
+            cudart.cudaFree(b)
+
+
+class ControlNetTRT(TRTDriver):
+    def __call__(self, x=None, hint=None, timesteps=None, context=None) -> Any:
+        assert(x is not None)
+        assert(hint is not None)
+        assert(timesteps is not None)
+        assert(context is not None)
+        
+        inputBuffers = [x.cuda(), hint.cuda(), timesteps.cuda(), context.cuda()]
+
+        inference_results = self.do_inference(inputBuffers)
+        if len(inference_results) == 1:
+            inference_results = inference_results[0]
+        return inference_results
+
+class UNetTRT(TRTDriver):
     def __call__(self, x=None, timesteps=None, context=None, control=None, only_mid_control=False) -> Any:
         assert(not only_mid_control)
         assert(x is not None)
@@ -91,7 +111,3 @@ class UNetTRT(object):
         if len(inference_results) == 1:
             inference_results = inference_results[0]
         return inference_results
-
-    def deinitialize(self):
-        for b in self.buffersD:
-            cudart.cudaFree(b)
