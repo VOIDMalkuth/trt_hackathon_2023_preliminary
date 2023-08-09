@@ -94,7 +94,7 @@ def export_unet_onnx(control_ldm_model):
 
 def main():
     control_ldm_model = create_model('./models/cldm_v15.yaml').cpu()
-    control_ldm_model.load_state_dict(load_state_dict('./models/control_sd15_canny.pth', location='cuda'))
+    control_ldm_model.load_state_dict(load_state_dict('/home/player/ControlNet/models/control_sd15_canny.pth', location='cuda'))
     export_controlnet_onnx(control_ldm_model)
     export_unet_onnx(control_ldm_model)
 
