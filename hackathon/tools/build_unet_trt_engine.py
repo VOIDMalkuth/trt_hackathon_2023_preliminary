@@ -18,6 +18,7 @@ def build_unet_trt_engine():
     ONNX_WEIGHT_DIR = "onnx_models/unet/"
     ONNX_FILE_PATH = "unet_static_shape.onnx"
     TRT_ENGINE_PATH = "trt_unet_batch_1.plan"
+    TIME_CACHE_FILE_PATH = "time_cache.dat"
 
     logger = trt.Logger(trt.Logger.ERROR)
     builder = trt.Builder(logger)
@@ -25,8 +26,16 @@ def build_unet_trt_engine():
 
     # modif config
     config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 32)
-    config.builder_optimization_level = 5
+    # config.builder_optimization_level = 3
     config.set_flag(trt.BuilderFlag.FP16)
+
+    # read time_cache
+    time_cache_bytes = b""
+    if os.path.isfile(TIME_CACHE_FILE_PATH):
+        with open(TIME_CACHE_FILE_PATH, "rb") as f:
+            time_cache = f.read()
+    time_cache = config.create_timing_cache(time_cache_bytes)
+    config.set_timing_cache(time_cache, False)
     
     network = builder.create_network(1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH))
     profile = builder.create_optimization_profile()
@@ -41,7 +50,7 @@ def build_unet_trt_engine():
             for error in range(parser.num_errors):
                 print(parser.get_error(error))
             exit(-1)
-    # print("Succeeded parsing .onnx file!")
+    print("Succeeded parsing .onnx file!")
     os.chdir(cwd)
 
     input_x = network.get_input(0)
@@ -60,12 +69,18 @@ def build_unet_trt_engine():
     if engine_buf == None:
         print("failed to build engine!")
         exit(-1)
-    # print("Succeeded building engine!")
+    print("Succeeded building engine!")
 
     with open(TRT_ENGINE_PATH, "wb") as f:
         f.write(engine_buf)
 
-    # print("Succeeded building and serializing trt engine for unet!")
+    # write timing cache
+    time_cache = config.get_timing_cache()
+    time_cache_bytes = time_cache.serialize()
+    with open(TIME_CACHE_FILE_PATH, "wb") as f:
+        f.write(time_cache_bytes)
+
+    print("Succeeded building and serializing trt engine for unet!")
 
 if __name__ == "__main__":
     build_unet_trt_engine()
