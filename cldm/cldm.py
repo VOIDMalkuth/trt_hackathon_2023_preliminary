@@ -343,7 +343,8 @@ class ControlLDM(LatentDiffusion):
             # print("timesteps:", t[0], ";", t, ";", t.dtype)
             # print("context.shape", cond_txt.shape, "context.dtype", cond_txt.dtype)
             if self.controlnet_trt is not None:
-                control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=t, context=cond_txt)
+                tfloat = t.to(torch.int32)
+                control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=tfloat, context=cond_txt)
             else:
                 control = self.control_model(x=x_noisy, hint=hint, timesteps=t, context=cond_txt)
             
@@ -354,7 +355,8 @@ class ControlLDM(LatentDiffusion):
             # print("only_mid_control: ", self.only_mid_control)
             
             if self.unet_trt is not None:
-                eps = self.unet_trt(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
+                tfloat = t.to(torch.int32)
+                eps = self.unet_trt(x=x_noisy, timesteps=tfloat, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
             else:
                 eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
             # print("eps.shape", eps.shape, "eps.dtype", eps.dtype)
