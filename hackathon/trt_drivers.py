@@ -248,13 +248,14 @@ class TRTDriverCUDAGraphAsync(object):
             cudart.cudaFree(b)
 
 class ControlNetTRT(TRTDriverCUDAGraphAsync):
-    def __call__(self, x=None, hint=None, timesteps=None, context=None) -> Any:
+    def __call__(self, x=None, hint=None, timesteps=None, context=None, control_scales=None) -> Any:
         assert(x is not None)
         assert(hint is not None)
         assert(timesteps is not None)
         assert(context is not None)
+        assert(control_scales is not None)
         
-        inputBuffers = [x.cuda(), hint.cuda(), timesteps.cuda(), context.cuda()]
+        inputBuffers = [x.cuda(), hint.cuda(), timesteps.cuda(), context.cuda(), control_scales.cuda()]
 
         inference_results = self.do_inference(inputBuffers)
         if len(inference_results) == 1:
