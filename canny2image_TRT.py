@@ -8,6 +8,10 @@ import numpy as np
 import torch
 import random
 
+import ctypes
+import cuda
+from cuda import cudart
+
 from pytorch_lightning import seed_everything
 from annotator.util import resize_image, HWC3
 from annotator.canny import CannyDetector
@@ -18,26 +22,34 @@ from hackathon.trt_drivers import ControlNetTRT, UNetTRT, VaeTRT
 
 class hackathon():
 
-    def initialize(self):
+    def initialize(self, export_calib_data=False):
+        _, self.stream = cudart.cudaStreamCreateWithFlags(cudart.cudaStreamNonBlocking)
+        self.torch_stream = torch.cuda.ExternalStream(int(self.stream))
+        self.torch_stream.query()
+
         self.apply_canny = CannyDetector()
         self.model = create_model('./models/cldm_v15.yaml').cpu()
         self.model.load_state_dict(load_state_dict('/home/player/ControlNet/models/control_sd15_canny.pth', location='cuda'))
         self.model = self.model.cuda()
 
-        controlnet_trt = ControlNetTRT("trt_controlnet_batch_1.plan")
-        unet_trt = UNetTRT("trt_unet_batch_1.plan")
-        vae_trt = VaeTRT("trt_vae_batch_1.plan")
-        self.model.updateTrtEngines({
-            "ControlNet": controlnet_trt,
-            "UNet": unet_trt,
-            "VAE": vae_trt,
-        })
+        if export_calib_data:
+            self.model.export_calib_data = True
+        else:
+            controlnet_trt = ControlNetTRT("trt_controlnet_batch_1.plan", self.stream)
+            unet_trt = UNetTRT("trt_unet_batch_1.plan", self.stream)
+            vae_trt = VaeTRT("trt_vae_batch_1.plan", self.stream)
+            self.model.updateTrtEngines({
+                "ControlNet": controlnet_trt,
+                "UNet": unet_trt,
+                "VAE": vae_trt,
+            })
 
         self.ddim_sampler = DDIMSampler(self.model)
 
 
     def process(self, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, ddim_steps, guess_mode, strength, scale, seed, eta, low_threshold, high_threshold):
-        with torch.no_grad():
+        with torch.cuda.StreamContext(self.torch_stream):
+            torch.cuda.nvtx.range_push("[preprocess]")
             img = resize_image(HWC3(input_image), image_resolution)
             H, W, C = img.shape
 

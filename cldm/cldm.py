@@ -318,6 +318,11 @@ class ControlLDM(LatentDiffusion):
         self.unet_trt = None
         self.vae_trt = None
 
+        self.export_calib_data = kwargs.get("export_calib_data", False)
+        self.controlnet_call_counter = 0
+        self.unet_call_counter = 0
+        self.vae_call_counter = 0
+
     @torch.no_grad()
     def get_input(self, batch, k, bs=None, *args, **kwargs):
         x, c = super().get_input(batch, self.first_stage_key, *args, **kwargs)
@@ -338,6 +343,8 @@ class ControlLDM(LatentDiffusion):
         if cond['c_concat'] is None:
             eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=None, only_mid_control=self.only_mid_control)
         else:
+            torch.cuda.nvtx.range_push("[ddim_sample_controlnet]")
+
             hint = torch.cat(cond['c_concat'], 1)
             # print("x_noisy.shape:", x_noisy.shape, "x_noisy.dtype: ", x_noisy.dtype)
             # print("hint.shape:", hint.shape, "hint.dtype: ", hint.dtype)
@@ -348,6 +355,8 @@ class ControlLDM(LatentDiffusion):
                 control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=tfloat, context=cond_txt)
             else:
                 control = self.control_model(x=x_noisy, hint=hint, timesteps=t, context=cond_txt)
+
+            torch.cuda.nvtx.range_pop()
             
             control = [c * scale for c, scale in zip(control, self.control_scales)]
             # print("control.len", len(control))
@@ -355,12 +364,16 @@ class ControlLDM(LatentDiffusion):
             #     print(str(i) + ", control[i].shape", control[i].shape, "control[i].dtype", control[i].dtype)
             # print("only_mid_control: ", self.only_mid_control)
             
+            torch.cuda.nvtx.range_push("[ddim_sample_unet]")
+
             if self.unet_trt is not None:
                 tfloat = t.to(torch.int32)
                 eps = self.unet_trt(x=x_noisy, timesteps=tfloat, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
             else:
                 eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
             # print("eps.shape", eps.shape, "eps.dtype", eps.dtype)
+
+            torch.cuda.nvtx.range_pop()
 
         return eps
 
