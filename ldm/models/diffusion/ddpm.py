@@ -825,7 +825,14 @@ class LatentDiffusion(DDPM):
             z = rearrange(z, 'b h w c -> b c h w').contiguous()
 
         z = 1. / self.scale_factor * z
-        return self.first_stage_model.decode(z)
+
+        # print("ZInfo: ", z.shape, z.dtype)
+        result = None
+        if self.vae_trt is not None:
+            result = self.vae_trt(z)
+        else:
+            result = self.first_stage_model.decode(z)
+        return result
 
     @torch.no_grad()
     def encode_first_stage(self, x):

@@ -316,6 +316,7 @@ class ControlLDM(LatentDiffusion):
 
         self.controlnet_trt = None
         self.unet_trt = None
+        self.vae_trt = None
 
     @torch.no_grad()
     def get_input(self, batch, k, bs=None, *args, **kwargs):
@@ -460,3 +461,4 @@ class ControlLDM(LatentDiffusion):
     def updateTrtEngines(self, engines):
         self.controlnet_trt = engines.get("ControlNet", self.controlnet_trt)
         self.unet_trt = engines.get("UNet", self.unet_trt)
+        self.vae_trt = engines.get("VAE", self.vae_trt)

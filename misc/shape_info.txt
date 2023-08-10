@@ -22,3 +22,5 @@ hint：图片大小
 x_noisy：(4, H // 8, W // 8)
 timesteps：(batch,)
 context：batch，seqlen，768（hiddensize）
+
+ZInfo:  torch.Size([1, 4, 32, 48]) torch.float32

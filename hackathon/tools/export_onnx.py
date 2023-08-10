@@ -19,6 +19,7 @@ CONTROL_FEATURE_SHAPES = [
     (1, 1280, 4, 6), (1, 1280, 4, 6), (1, 1280, 4, 6),
     (1, 1280, 4, 6),
 ]
+VAE_Z_SHAPE=(1, 4, 32, 48)
 
 def export_controlnet_onnx(control_ldm_model):
     controlnet_model = control_ldm_model.control_model
@@ -62,7 +63,6 @@ def export_unet_onnx(control_ldm_model):
     control_orig = [torch.randn(*i, dtype=torch.float32) for i in CONTROL_FEATURE_SHAPES]
     control = control_orig.copy()
 
-    # need to change model to enable_grad
     outs = unet_model(x=x_noisy, timesteps=timesteps, context=context, control=control, only_mid_control=False)
 
     # print(type(outs))
@@ -92,11 +92,36 @@ def export_unet_onnx(control_ldm_model):
         # verbose=True
     )
 
+def export_vae_onnx(control_ldm_model):
+    vae_model = control_ldm_model.first_stage_model
+    vae_model.eval()
+    vae_model.forward = vae_model.decode
+
+    z = torch.randn(*VAE_Z_SHAPE, dtype=torch.float32)
+    outs = vae_model(z)
+
+    torch.onnx.export(
+        vae_model,
+        (z),
+        "onnx_models/vae/vae_static_shape.onnx",
+        export_params=True,
+        opset_version=17,
+        do_constant_folding=True,
+        input_names=[
+            'z'
+        ],
+        output_names=[
+            'x_samples'
+        ],
+        # verbose=True
+    )
+
 def main():
     control_ldm_model = create_model('./models/cldm_v15.yaml').cpu()
     control_ldm_model.load_state_dict(load_state_dict('/home/player/ControlNet/models/control_sd15_canny.pth', location='cuda'))
     export_controlnet_onnx(control_ldm_model)
     export_unet_onnx(control_ldm_model)
+    export_vae_onnx(control_ldm_model)
 
 if __name__ == "__main__":
     main()

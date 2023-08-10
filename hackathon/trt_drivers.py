@@ -261,3 +261,12 @@ class UNetTRT(TRTDriverCUDAGraph):
         if len(inference_results) == 1:
             inference_results = inference_results[0]
         return inference_results
+
+class VaeTRT(TRTDriverCUDAGraph):
+    def __call__(self, z) -> Any:
+        inputBuffers = [z.cuda()]
+
+        inference_results = self.do_inference(inputBuffers)
+        if len(inference_results) == 1:
+            inference_results = inference_results[0]
+        return inference_results
