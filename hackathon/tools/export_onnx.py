@@ -19,7 +19,6 @@ CONTROL_FEATURE_SHAPES = [
     (1, 1280, 4, 6), (1, 1280, 4, 6), (1, 1280, 4, 6),
     (1, 1280, 4, 6),
 ]
-CONTROL_SCALES_SHAPE=(13,)
 VAE_Z_SHAPE=(1, 4, 32, 48)
 
 def export_controlnet_onnx(control_ldm_model):
@@ -30,21 +29,20 @@ def export_controlnet_onnx(control_ldm_model):
     x_noisy = torch.randn(*X_NOISY_SHAPE, dtype=torch.float32)
     timesteps = torch.tensor([500], dtype=torch.int64)
     context = torch.randn(*CONTEXT_SHAPE, dtype=torch.float32)
-    control_scales = torch.randn(*CONTROL_SCALES_SHAPE, dtype=torch.float32)
 
-    outs = controlnet_model(x=x_noisy, hint=hint, timesteps=timesteps, context=context, control_scales=control_scales)
+    outs = controlnet_model(x=x_noisy, hint=hint, timesteps=timesteps, context=context)
 
     # print(type(outs))
     # print(len(outs))
 
     torch.onnx.export(
         controlnet_model,
-        (x_noisy, hint, timesteps, context, control_scales),
+        (x_noisy, hint, timesteps, context),
         "onnx_models/controlnet/controlnet_static_shape.onnx",
         export_params=True,
         opset_version=17,
         do_constant_folding=True,
-        input_names=['x_noisy', 'hint', 'timesteps', 'context', 'control_scales'],
+        input_names=['x_noisy', 'hint', 'timesteps', 'context'],
         output_names=[
             'control_1', 'control_2', 'control_3', 'control_4',
             'control_5', 'control_6', 'control_7', 'control_8',

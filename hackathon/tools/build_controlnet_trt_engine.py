@@ -13,7 +13,6 @@ CONTROL_FEATURE_SHAPES = [
     (1, 1280, 4, 6), (1, 1280, 4, 6), (1, 1280, 4, 6),
     (1, 1280, 4, 6),
 ]
-CONTROL_SCALES_SHAPE=(13,)
 
 def build_controlnet_trt_engine():
     ONNX_FILE_PATH = "onnx_models/controlnet/controlnet_static_shape.onnx"
@@ -53,12 +52,10 @@ def build_controlnet_trt_engine():
     input_hint = network.get_input(1)
     input_timesteps = network.get_input(2)
     input_context = network.get_input(3)
-    input_control_scales = network.get_input(4)
     profile.set_shape(input_x_noisy.name, X_NOISY_SHAPE, X_NOISY_SHAPE, X_NOISY_SHAPE)
     profile.set_shape(input_hint.name, IMAGE_HINT_SHAPE, IMAGE_HINT_SHAPE, IMAGE_HINT_SHAPE)
     profile.set_shape(input_timesteps.name, TIMESTEPS_SHAPE, TIMESTEPS_SHAPE, TIMESTEPS_SHAPE)
     profile.set_shape(input_context.name, CONTEXT_SHAPE, CONTEXT_SHAPE, CONTEXT_SHAPE)
-    profile.set_shape(input_control_scales.name, CONTROL_SCALES_SHAPE, CONTROL_SCALES_SHAPE, CONTROL_SCALES_SHAPE)
 
     config.add_optimization_profile(profile)
 

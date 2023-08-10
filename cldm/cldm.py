@@ -281,7 +281,7 @@ class ControlNet(nn.Module):
     def make_zero_conv(self, channels):
         return TimestepEmbedSequential(zero_module(conv_nd(self.dims, channels, channels, 1, padding=0)))
 
-    def forward(self, x, hint, timesteps, context, control_scales, **kwargs):
+    def forward(self, x, hint, timesteps, context, **kwargs):
         t_emb = timestep_embedding(timesteps, self.model_channels, repeat_only=False)
         emb = self.time_embed(t_emb)
 
@@ -301,8 +301,6 @@ class ControlNet(nn.Module):
 
         h = self.middle_block(h, emb, context)
         outs.append(self.middle_block_out(h, emb, context))
-
-        outs = [c * scale for c, scale in zip(outs, control_scales)]
 
         return outs
 
@@ -341,7 +339,6 @@ class ControlLDM(LatentDiffusion):
         diffusion_model = self.model.diffusion_model
 
         cond_txt = torch.cat(cond['c_crossattn'], 1)
-        tfloat = t.to(torch.int32)
 
         if cond['c_concat'] is None:
             eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=None, only_mid_control=self.only_mid_control)
@@ -354,12 +351,14 @@ class ControlLDM(LatentDiffusion):
             # print("timesteps:", t[0], ";", t, ";", t.dtype)
             # print("context.shape", cond_txt.shape, "context.dtype", cond_txt.dtype)
             if self.controlnet_trt is not None:
-                control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=tfloat, context=cond_txt, control_scales=self.control_scales)
+                tfloat = t.to(torch.int32)
+                control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=tfloat, context=cond_txt)
             else:
-                control = self.control_model(x=x_noisy, hint=hint, timesteps=t, context=cond_txt, control_scales=self.control_scales)
+                control = self.control_model(x=x_noisy, hint=hint, timesteps=t, context=cond_txt)
 
             torch.cuda.nvtx.range_pop()
             
+            control = [c * scale for c, scale in zip(control, self.control_scales)]
             # print("control.len", len(control))
             # for i in range(len(control)):
             #     print(str(i) + ", control[i].shape", control[i].shape, "control[i].dtype", control[i].dtype)
@@ -368,6 +367,7 @@ class ControlLDM(LatentDiffusion):
             torch.cuda.nvtx.range_push("[ddim_sample_unet]")
 
             if self.unet_trt is not None:
+                tfloat = t.to(torch.int32)
                 eps = self.unet_trt(x=x_noisy, timesteps=tfloat, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
             else:
                 eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
