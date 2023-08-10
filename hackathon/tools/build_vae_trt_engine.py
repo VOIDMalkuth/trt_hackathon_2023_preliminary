@@ -27,7 +27,7 @@ def build_vae_trt_engine():
 
     # modif config
     config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 32)
-    config.builder_optimization_level = 5
+    # config.builder_optimization_level = 5
     config.set_flag(trt.BuilderFlag.FP16)
 
     # read time_cache
