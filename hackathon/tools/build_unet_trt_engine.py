@@ -31,14 +31,21 @@ def build_unet_trt_engine():
     ONNX_FILE_PATH = "unet_static_shape.onnx"
     TRT_ENGINE_PATH = "trt_unet.plan"
     TIME_CACHE_FILE_PATH = "time_cache.dat"
+    
+    opt_level = 3
+    
+    on_cloud_test = os.environ.get("ON_CLOUD_TEST", "0") == "1"
+    if on_cloud_test:
+        print("Using opt_level = 5 for cloud test")
+        opt_level = 5
 
     logger = trt.Logger(trt.Logger.ERROR)
     builder = trt.Builder(logger)
     config = builder.create_builder_config()
 
     # modif config
-    config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 32)
-    # config.builder_optimization_level = 5
+    config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 16 * (1 << 30))
+    config.builder_optimization_level = opt_level
     config.set_flag(trt.BuilderFlag.FP16)
 
     # read time_cache

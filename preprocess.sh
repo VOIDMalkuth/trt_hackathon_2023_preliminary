@@ -4,11 +4,8 @@ mkdir -p onnx_models
 mkdir -p onnx_models/controlnet
 mkdir -p onnx_models/unet
 mkdir -p onnx_models/vae
-rm -rf calib_datas
-mkdir -p calib_datas
-mkdir -p calib_datas/controlnet
-mkdir -p calib_datas/unet
-mkdir -p calib_datas/vae
+
+export ON_CLOUD_TEST=1
 
 echo "Exporting onnx"
 PYTHONPATH=$PWD python3 hackathon/tools/export_onnx.py
