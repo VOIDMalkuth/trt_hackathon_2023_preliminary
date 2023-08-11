@@ -16,12 +16,12 @@ CONTROL_FEATURE_SHAPES = [
 ]
 VAE_Z_SHAPE=(1, 4, 32, 48)
 
-TOKENS_SHAPE=(1, 77)
+BS2_TOKENS_SHAPE=(2, 77)
 
 def build_clip_trt_engine():
     ONNX_WEIGHT_DIR = "onnx_models/clip/"
     ONNX_FILE_PATH = "clip_static_shape.onnx"
-    TRT_ENGINE_PATH = "trt_clip_batch_1.plan"
+    TRT_ENGINE_PATH = "trt_clip.plan"
     TIME_CACHE_FILE_PATH = "time_cache.dat"
     
     opt_level = 3
@@ -66,7 +66,7 @@ def build_clip_trt_engine():
     os.chdir(cwd)
 
     input_tokens = network.get_input(0)
-    profile.set_shape(input_tokens.name, TOKENS_SHAPE, TOKENS_SHAPE, TOKENS_SHAPE)
+    profile.set_shape(input_tokens.name, TOKENS_SHAPE, BS2_TOKENS_SHAPE, BS2_TOKENS_SHAPE)
     
     config.add_optimization_profile(profile)
 

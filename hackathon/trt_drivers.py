@@ -28,6 +28,8 @@ class TRTDriver(object):
             engine_buf = f.read()
         self.engine = trt.Runtime(self.logger).deserialize_cuda_engine(engine_buf)
         print("Succeed deserializing controlnet_trt engine!")
+        
+        self.batch_size = bs
 
         self.context = self.engine.create_execution_context()
 
@@ -98,6 +100,7 @@ class TRTDriverCUDAGraph(object):
         self.cuda_graph_status = "UNINITED"
         self.cuda_graph = None
         self.cuda_graph_exec = None
+        self.batch_size = bs
         
         print("Deserializing controlnet_trt engine...")
         trt.init_libnvinfer_plugins(None, "")
@@ -188,6 +191,7 @@ class TRTDriverCUDAGraphAsync(object):
         self.cuda_graph = None
         self.cuda_graph_exec = None
         self.use_cuda_graph = use_cuda_graph
+        self.batch_size = bs
         
         print("Deserializing controlnet_trt engine...")
         trt.init_libnvinfer_plugins(None, "")
@@ -318,10 +322,20 @@ class ClipTRT(TRTDriverCUDAGraphAsync):
         self.tokenizer = CLIPTokenizer.from_pretrained(version)
     
     def __call__(self, text) -> Any:
-        batch_encoding = self.tokenizer(text, truncation=True, max_length=77, return_length=True,
+        if self.batch_size == 1:
+            batch_encoding = self.tokenizer(text, truncation=True, max_length=77, return_length=True,
                                         return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
-        tokens = batch_encoding["input_ids"].to(torch.int32)
-        
+            tokens = batch_encoding["input_ids"].to(torch.int32)
+        else:
+            assert len(text) == 2
+            batch_encoding0 = self.tokenizer(text[0], truncation=True, max_length=77, return_length=True,
+                                        return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
+            tokens0 = batch_encoding0["input_ids"].to(torch.int32).cuda()
+            batch_encoding1 = self.tokenizer(text[1], truncation=True, max_length=77, return_length=True,
+                                        return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
+            tokens1 = batch_encoding1["input_ids"].to(torch.int32).cuda()
+            tokens = torch.cat((tokens0, tokens1), 0)
+            
         inputBuffers = [tokens.cuda()]
         inference_results = self.do_inference(inputBuffers)
         return inference_results[0]
