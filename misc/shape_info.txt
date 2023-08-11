@@ -24,3 +24,5 @@ timesteps：(batch,)
 context：batch，seqlen，768（hiddensize）
 
 ZInfo:  torch.Size([1, 4, 32, 48]) torch.float32
+
+Tokens: torch.Size([1, 77]) torch.int64

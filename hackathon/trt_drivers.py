@@ -4,6 +4,8 @@ import torch
 import tensorrt as trt
 from cuda import cudart
 
+from transformers import CLIPTokenizer
+
 def torch_dtype_from_trt(dtype):
     if dtype == trt.int8:
         return torch.int8
@@ -308,3 +310,18 @@ class VaeTRT(TRTDriverCUDAGraphAsync):
         if len(inference_results) == 1:
             inference_results = inference_results[0]
         return inference_results
+    
+class ClipTRT(TRTDriverCUDAGraphAsync):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs, use_cuda_graph=False)
+        version="openai/clip-vit-large-patch14"
+        self.tokenizer = CLIPTokenizer.from_pretrained(version)
+    
+    def __call__(self, text) -> Any:
+        batch_encoding = self.tokenizer(text, truncation=True, max_length=77, return_length=True,
+                                        return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
+        tokens = batch_encoding["input_ids"].to(torch.int32)
+        
+        inputBuffers = [tokens.cuda()]
+        inference_results = self.do_inference(inputBuffers)
+        return inference_results[0]

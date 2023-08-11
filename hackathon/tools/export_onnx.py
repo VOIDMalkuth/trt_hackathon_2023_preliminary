@@ -10,6 +10,7 @@ warnings.filterwarnings('ignore')
 
 IMAGE_HINT_SHAPE=(1, 3, 256, 384)
 X_NOISY_SHAPE=(1, 4, 32, 48)
+TOKENS_SHAPE=(1, 77)
 CONTEXT_SHAPE=(1, 77, 768)
 TIMESTEPS_SHAPE=(1,)
 CONTROL_FEATURE_SHAPES = [
@@ -149,6 +150,35 @@ def export_vae_onnx(control_ldm_model):
         ],
         # verbose=True
     )
+    
+def export_clip_onnx(control_ldm_model):
+    clip_model = control_ldm_model.cond_stage_model.transformer
+    clip_model.eval()
+
+    tokens = torch.ones(*TOKENS_SHAPE, dtype=torch.int64)
+    outs = clip_model(tokens)
+
+    torch.onnx.export(
+        clip_model,
+        (tokens),
+        "onnx_models/clip/clip_static_shape.onnx",
+        export_params=True,
+        opset_version=17,
+        do_constant_folding=True,
+        input_names=[
+            'tokens'
+        ],
+        output_names=[
+            'cond_out', 'other_states'
+        ],
+        dynamic_axes={
+            # inputs
+            'tokens': {0: 'batch_size'},
+            # outputs
+            'cond_out': {0: 'batch_size'},
+            'other_states': {0: 'batch_size'},
+        },
+    )
 
 def main():
     control_ldm_model = create_model('./models/cldm_v15.yaml').cpu()
@@ -156,6 +186,7 @@ def main():
     export_controlnet_onnx(control_ldm_model)
     export_unet_onnx(control_ldm_model)
     export_vae_onnx(control_ldm_model)
+    export_clip_onnx(control_ldm_model)
 
 if __name__ == "__main__":
     main()

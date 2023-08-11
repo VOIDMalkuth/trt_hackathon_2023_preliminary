@@ -18,7 +18,7 @@ from annotator.canny import CannyDetector
 from cldm.model import create_model, load_state_dict
 from cldm.ddim_hacked import DDIMSampler
 
-from hackathon.trt_drivers import ControlNetTRT, UNetTRT, VaeTRT
+from hackathon.trt_drivers import ControlNetTRT, UNetTRT, VaeTRT, ClipTRT
 
 class hackathon():
 
@@ -26,6 +26,7 @@ class hackathon():
         _, self.stream = cudart.cudaStreamCreateWithFlags(cudart.cudaStreamNonBlocking)
         self.torch_stream = torch.cuda.ExternalStream(int(self.stream))
         self.torch_stream.query()
+        torch.cuda.set_stream(self.torch_stream)
 
         self.apply_canny = CannyDetector()
         self.model = create_model('./models/cldm_v15.yaml').cpu()
@@ -39,10 +40,12 @@ class hackathon():
             controlnet_trt = ControlNetTRT("trt_controlnet.plan", self.stream, bs=bs)
             unet_trt = UNetTRT("trt_unet.plan", self.stream, bs=bs)
             vae_trt = VaeTRT("trt_vae_batch_1.plan", self.stream, bs=1)
+            clip_trt = ClipTRT("trt_clip_batch_1.plan", self.stream, bs=1)
             self.model.updateTrtEngines({
                 "ControlNet": controlnet_trt,
                 "UNet": unet_trt,
                 "VAE": vae_trt,
+                "CLIP": clip_trt,
                 "batch_size": bs
             })
 
@@ -50,7 +53,7 @@ class hackathon():
 
 
     def process(self, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, ddim_steps, guess_mode, strength, scale, seed, eta, low_threshold, high_threshold):
-        with torch.cuda.StreamContext(self.torch_stream):
+        with torch.no_grad():
             img = resize_image(HWC3(input_image), image_resolution)
             H, W, C = img.shape
 

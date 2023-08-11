@@ -317,6 +317,7 @@ class ControlLDM(LatentDiffusion):
         self.controlnet_trt = None
         self.unet_trt = None
         self.vae_trt = None
+        self.clip_trt = None
         self.batch_size = 1
 
         self.export_calib_data = kwargs.get("export_calib_data", False)
@@ -519,4 +520,5 @@ class ControlLDM(LatentDiffusion):
         self.controlnet_trt = engines.get("ControlNet", self.controlnet_trt)
         self.unet_trt = engines.get("UNet", self.unet_trt)
         self.vae_trt = engines.get("VAE", self.vae_trt)
+        self.clip_trt = engines.get("CLIP", self.clip_trt)
         self.batch_size = engines.get("batch_size", self.batch_size)

@@ -4,6 +4,7 @@ mkdir -p onnx_models
 mkdir -p onnx_models/controlnet
 mkdir -p onnx_models/unet
 mkdir -p onnx_models/vae
+mkdir -p onnx_models/clip
 
 export ON_CLOUD_TEST=1
 
@@ -23,3 +24,6 @@ python3 hackathon/tools/build_unet_trt_engine.py
 
 echo "building trt_vae"
 python3 hackathon/tools/build_vae_trt_engine.py
+
+echo "building trt_clip"
+python3 hackathon/tools/build_clip_trt_engine.py
