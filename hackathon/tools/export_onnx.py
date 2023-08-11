@@ -48,10 +48,28 @@ def export_controlnet_onnx(control_ldm_model):
             'control_5', 'control_6', 'control_7', 'control_8',
             'control_9', 'control_10', 'control_11', 'control_12',
             'control_13'
-        ]
-        # dynamic_axes={
-        #     'context': {1: 'seqlen'},
-        # }
+        ],
+        dynamic_axes={
+            # inputs
+            'x_noisy': {0: 'batch_size'},
+            'hint': {0: 'batch_size'},
+            'timesteps': {0: 'batch_size'},
+            'context': {0: 'batch_size'},
+            # outputs
+            'control_1': {0: 'batch_size'},
+            'control_2': {0: 'batch_size'},
+            'control_3': {0: 'batch_size'},
+            'control_4': {0: 'batch_size'},
+            'control_5': {0: 'batch_size'},
+            'control_6': {0: 'batch_size'},
+            'control_7': {0: 'batch_size'},
+            'control_8': {0: 'batch_size'},
+            'control_9': {0: 'batch_size'},
+            'control_10': {0: 'batch_size'},
+            'control_11': {0: 'batch_size'},
+            'control_12': {0: 'batch_size'},
+            'control_13': {0: 'batch_size'},
+        }
     )
 
 def export_unet_onnx(control_ldm_model):
@@ -84,12 +102,28 @@ def export_unet_onnx(control_ldm_model):
         ],
         output_names=[
             'eps'
-        ]
-        # dynamic_axes={
-        #     # inputs
-        #     'context': {1: 'seqlen'},
-        # },
-        # verbose=True
+        ],
+        dynamic_axes={
+            # inputs
+            'x_noisy': {0: 'batch_size'},
+            'timesteps': {0: 'batch_size'},
+            'context': {0: 'batch_size'},
+            'control_1': {0: 'batch_size'},
+            'control_2': {0: 'batch_size'},
+            'control_3': {0: 'batch_size'},
+            'control_4': {0: 'batch_size'},
+            'control_5': {0: 'batch_size'},
+            'control_6': {0: 'batch_size'},
+            'control_7': {0: 'batch_size'},
+            'control_8': {0: 'batch_size'},
+            'control_9': {0: 'batch_size'},
+            'control_10': {0: 'batch_size'},
+            'control_11': {0: 'batch_size'},
+            'control_12': {0: 'batch_size'},
+            'control_13': {0: 'batch_size'},
+            # outputs
+            'eps': {0: 'batch_size'},
+        },
     )
 
 def export_vae_onnx(control_ldm_model):

@@ -14,10 +14,22 @@ CONTROL_FEATURE_SHAPES = [
     (1, 1280, 4, 6),
 ]
 
+BS2_IMAGE_HINT_SHAPE=(2, 3, 256, 384)
+BS2_X_NOISY_SHAPE=(2, 4, 32, 48)
+BS2_CONTEXT_SHAPE=(2, 77, 768)
+BS2_TIMESTEPS_SHAPE=(2,)
+BS2_CONTROL_FEATURE_SHAPES = [
+    (2, 320, 32, 48), (2, 320, 32, 48), (2, 320, 32, 48),
+    (2, 320, 16, 24), (2, 640, 16, 24), (2, 640, 16, 24),
+    (2, 640, 8, 12), (2, 1280, 8, 12), (2, 1280, 8, 12),
+    (2, 1280, 4, 6), (2, 1280, 4, 6), (2, 1280, 4, 6),
+    (2, 1280, 4, 6),
+]
+
 def build_unet_trt_engine():
     ONNX_WEIGHT_DIR = "onnx_models/unet/"
     ONNX_FILE_PATH = "unet_static_shape.onnx"
-    TRT_ENGINE_PATH = "trt_unet_batch_1.plan"
+    TRT_ENGINE_PATH = "trt_unet.plan"
     TIME_CACHE_FILE_PATH = "time_cache.dat"
 
     logger = trt.Logger(trt.Logger.ERROR)
@@ -56,12 +68,12 @@ def build_unet_trt_engine():
     input_x = network.get_input(0)
     input_timesteps = network.get_input(1)
     input_context = network.get_input(2)
-    profile.set_shape(input_x.name, X_NOISY_SHAPE, X_NOISY_SHAPE, X_NOISY_SHAPE)
-    profile.set_shape(input_timesteps.name, TIMESTEPS_SHAPE, TIMESTEPS_SHAPE, TIMESTEPS_SHAPE)
-    profile.set_shape(input_context.name, CONTEXT_SHAPE, CONTEXT_SHAPE, CONTEXT_SHAPE)
+    profile.set_shape(input_x.name, X_NOISY_SHAPE, BS2_X_NOISY_SHAPE, BS2_X_NOISY_SHAPE)
+    profile.set_shape(input_timesteps.name, TIMESTEPS_SHAPE, BS2_TIMESTEPS_SHAPE, BS2_TIMESTEPS_SHAPE)
+    profile.set_shape(input_context.name, CONTEXT_SHAPE, BS2_CONTEXT_SHAPE, BS2_CONTEXT_SHAPE)
     for i in range(len(CONTROL_FEATURE_SHAPES)):
         input_control_i = network.get_input(3 + i)
-        profile.set_shape(input_control_i.name, CONTROL_FEATURE_SHAPES[i], CONTROL_FEATURE_SHAPES[i], CONTROL_FEATURE_SHAPES[i])
+        profile.set_shape(input_control_i.name, CONTROL_FEATURE_SHAPES[i], BS2_CONTROL_FEATURE_SHAPES[i], BS2_CONTROL_FEATURE_SHAPES[i])
 
     config.add_optimization_profile(profile)
 

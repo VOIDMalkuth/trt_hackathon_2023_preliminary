@@ -35,13 +35,15 @@ class hackathon():
         if export_calib_data:
             self.model.export_calib_data = True
         else:
-            controlnet_trt = ControlNetTRT("trt_controlnet_batch_1.plan", self.stream)
-            unet_trt = UNetTRT("trt_unet_batch_1.plan", self.stream)
-            vae_trt = VaeTRT("trt_vae_batch_1.plan", self.stream)
+            bs = 2
+            controlnet_trt = ControlNetTRT("trt_controlnet.plan", self.stream, bs=bs)
+            unet_trt = UNetTRT("trt_unet.plan", self.stream, bs=bs)
+            vae_trt = VaeTRT("trt_vae_batch_1.plan", self.stream, bs=1)
             self.model.updateTrtEngines({
                 "ControlNet": controlnet_trt,
                 "UNet": unet_trt,
                 "VAE": vae_trt,
+                "batch_size": bs
             })
 
         self.ddim_sampler = DDIMSampler(self.model)

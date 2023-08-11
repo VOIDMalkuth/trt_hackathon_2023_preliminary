@@ -14,9 +14,21 @@ CONTROL_FEATURE_SHAPES = [
     (1, 1280, 4, 6),
 ]
 
+BS2_IMAGE_HINT_SHAPE=(2, 3, 256, 384)
+BS2_X_NOISY_SHAPE=(2, 4, 32, 48)
+BS2_CONTEXT_SHAPE=(2, 77, 768)
+BS2_TIMESTEPS_SHAPE=(2,)
+BS2_CONTROL_FEATURE_SHAPES = [
+    (2, 320, 32, 48), (2, 320, 32, 48), (2, 320, 32, 48),
+    (2, 320, 16, 24), (2, 640, 16, 24), (2, 640, 16, 24),
+    (2, 640, 8, 12), (2, 1280, 8, 12), (2, 1280, 8, 12),
+    (2, 1280, 4, 6), (2, 1280, 4, 6), (2, 1280, 4, 6),
+    (2, 1280, 4, 6),
+]
+
 def build_controlnet_trt_engine():
     ONNX_FILE_PATH = "onnx_models/controlnet/controlnet_static_shape.onnx"
-    TRT_ENGINE_PATH = "trt_controlnet_batch_1.plan"
+    TRT_ENGINE_PATH = "trt_controlnet.plan"
     TIME_CACHE_FILE_PATH = "time_cache.dat"
 
     logger = trt.Logger(trt.Logger.ERROR)
@@ -52,10 +64,10 @@ def build_controlnet_trt_engine():
     input_hint = network.get_input(1)
     input_timesteps = network.get_input(2)
     input_context = network.get_input(3)
-    profile.set_shape(input_x_noisy.name, X_NOISY_SHAPE, X_NOISY_SHAPE, X_NOISY_SHAPE)
-    profile.set_shape(input_hint.name, IMAGE_HINT_SHAPE, IMAGE_HINT_SHAPE, IMAGE_HINT_SHAPE)
-    profile.set_shape(input_timesteps.name, TIMESTEPS_SHAPE, TIMESTEPS_SHAPE, TIMESTEPS_SHAPE)
-    profile.set_shape(input_context.name, CONTEXT_SHAPE, CONTEXT_SHAPE, CONTEXT_SHAPE)
+    profile.set_shape(input_x_noisy.name, X_NOISY_SHAPE, BS2_X_NOISY_SHAPE, BS2_X_NOISY_SHAPE)
+    profile.set_shape(input_hint.name, IMAGE_HINT_SHAPE, BS2_IMAGE_HINT_SHAPE, BS2_IMAGE_HINT_SHAPE)
+    profile.set_shape(input_timesteps.name, TIMESTEPS_SHAPE, BS2_TIMESTEPS_SHAPE, BS2_TIMESTEPS_SHAPE)
+    profile.set_shape(input_context.name, CONTEXT_SHAPE, BS2_CONTEXT_SHAPE, BS2_CONTEXT_SHAPE)
 
     config.add_optimization_profile(profile)
 

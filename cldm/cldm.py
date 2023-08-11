@@ -317,6 +317,7 @@ class ControlLDM(LatentDiffusion):
         self.controlnet_trt = None
         self.unet_trt = None
         self.vae_trt = None
+        self.batch_size = 1
 
         self.export_calib_data = kwargs.get("export_calib_data", False)
         self.controlnet_call_counter = 0
@@ -335,6 +336,7 @@ class ControlLDM(LatentDiffusion):
         return x, dict(c_crossattn=[c], c_concat=[control])
 
     def apply_model(self, x_noisy, t, cond, *args, **kwargs):
+        assert self.batch_size == 1
         assert isinstance(cond, dict)
         diffusion_model = self.model.diffusion_model
 
@@ -351,8 +353,8 @@ class ControlLDM(LatentDiffusion):
             # print("timesteps:", t[0], ";", t, ";", t.dtype)
             # print("context.shape", cond_txt.shape, "context.dtype", cond_txt.dtype)
             if self.controlnet_trt is not None:
-                tfloat = t.to(torch.int32)
-                control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=tfloat, context=cond_txt)
+                tint32 = t.to(torch.int32)
+                control = self.controlnet_trt(x=x_noisy, hint=hint, timesteps=tint32, context=cond_txt)
             else:
                 control = self.control_model(x=x_noisy, hint=hint, timesteps=t, context=cond_txt)
 
@@ -367,13 +369,55 @@ class ControlLDM(LatentDiffusion):
             torch.cuda.nvtx.range_push("[ddim_sample_unet]")
 
             if self.unet_trt is not None:
-                tfloat = t.to(torch.int32)
-                eps = self.unet_trt(x=x_noisy, timesteps=tfloat, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
+                tint32 = t.to(torch.int32)
+                eps = self.unet_trt(x=x_noisy, timesteps=tint32, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
             else:
                 eps = diffusion_model(x=x_noisy, timesteps=t, context=cond_txt, control=control, only_mid_control=self.only_mid_control)
             # print("eps.shape", eps.shape, "eps.dtype", eps.dtype)
 
             torch.cuda.nvtx.range_pop()
+
+        return eps
+    
+    def apply_model_bs2(self, x_noisy, t, cond, uncond, *args, **kwargs):
+        assert self.batch_size == 2
+        assert isinstance(cond, dict)
+        diffusion_model = self.model.diffusion_model
+
+        torch.cuda.nvtx.range_push("[prepare_bs2]")
+        
+        cond_txt = torch.cat(cond['c_crossattn'], 1)
+        uncond_txt = torch.cat(uncond['c_crossattn'], 1)
+        
+        assert cond['c_concat'] is not None
+        hint_cond = torch.cat(cond['c_concat'], 1)
+        hint_uncond = torch.cat(uncond['c_concat'], 1)
+        
+        x_noisy_bs2 = torch.cat((x_noisy, x_noisy), 0)
+        t_bs2 = torch.cat((t, t), 0)
+        context_bs2 = torch.cat((cond_txt, uncond_txt), 0)
+        hint_bs2 = torch.cat((hint_cond, hint_uncond), 0)
+        
+        torch.cuda.nvtx.range_pop()
+        torch.cuda.nvtx.range_push("[controlnet_bs2]")
+
+        if self.controlnet_trt is not None:
+            tint32_bs2 = t_bs2.to(torch.int32)
+            control = self.controlnet_trt(x=x_noisy_bs2, hint=hint_bs2, timesteps=tint32_bs2, context=context_bs2)
+        else:
+            control = self.control_model(x=x_noisy_bs2, hint=hint_bs2, timesteps=t_bs2, context=context_bs2)
+        control = [c * scale for c, scale in zip(control, self.control_scales)]
+
+        torch.cuda.nvtx.range_pop()
+        torch.cuda.nvtx.range_push("[unet_bs2]")
+        
+        if self.unet_trt is not None:
+            tint32_bs2 = t_bs2.to(torch.int32)
+            eps = self.unet_trt(x=x_noisy_bs2, timesteps=tint32_bs2, context=context_bs2, control=control, only_mid_control=self.only_mid_control)
+        else:
+            eps = diffusion_model(x=x_noisy_bs2, timesteps=t_bs2, context=context_bs2, control=control, only_mid_control=self.only_mid_control)
+
+        torch.cuda.nvtx.range_pop()
 
         return eps
 
@@ -475,3 +519,4 @@ class ControlLDM(LatentDiffusion):
         self.controlnet_trt = engines.get("ControlNet", self.controlnet_trt)
         self.unet_trt = engines.get("UNet", self.unet_trt)
         self.vae_trt = engines.get("VAE", self.vae_trt)
+        self.batch_size = engines.get("batch_size", self.batch_size)

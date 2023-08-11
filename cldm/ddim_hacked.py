@@ -186,6 +186,9 @@ class DDIMSampler(object):
 
         if unconditional_conditioning is None or unconditional_guidance_scale == 1.:
             model_output = self.model.apply_model(x, t, c)
+        elif self.model.batch_size == 2:
+            model_t, model_uncond = self.model.apply_model_bs2(x, t, c, unconditional_conditioning).chunk(2)
+            model_output = model_uncond + unconditional_guidance_scale * (model_t - model_uncond)
         else:
             model_t = self.model.apply_model(x, t, c)
             model_uncond = self.model.apply_model(x, t, unconditional_conditioning)

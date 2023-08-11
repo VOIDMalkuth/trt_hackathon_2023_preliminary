@@ -17,7 +17,7 @@ def torch_dtype_from_trt(dtype):
         raise TypeError('%s is not supported by torch' % dtype)
 
 class TRTDriver(object):
-    def __init__(self, trt_engine_path):
+    def __init__(self, trt_engine_path, bs=1):
         self.logger = trt.Logger(trt.Logger.VERBOSE)
         
         print("Deserializing controlnet_trt engine...")
@@ -34,6 +34,13 @@ class TRTDriver(object):
         self.nInput = [self.engine.get_tensor_mode(self.lTensorName[i]) for i in range(self.nIO)].count(trt.TensorIOMode.INPUT)
         self.nOutput = self.nIO - self.nInput
 
+        for i in range(self.nInput):
+            shape = self.context.get_binding_shape(i)
+            shape[0] = bs
+            self.context.set_binding_shape(i, shape)
+        
+        self.context.infer_shapes()
+        
         for i in range(self.nIO):
             print("controlnet_trt [%2d]%s->" % (i, "Input " if i < self.nInput else "Output"), self.engine.get_tensor_dtype(self.lTensorName[i]), self.engine.get_tensor_shape(self.lTensorName[i]), self.context.get_tensor_shape(self.lTensorName[i]), self.lTensorName[i])
 
@@ -41,7 +48,7 @@ class TRTDriver(object):
         self.buffersD = []
         self.lTensorInfo = []
         for i in range(self.nIO):
-            shape = self.context.get_tensor_shape(self.lTensorName[i])
+            shape = self.context.get_binding_shape(i)
             trt_type = self.engine.get_tensor_dtype(self.lTensorName[i])
             buf = np.empty(shape, dtype=trt.nptype(trt_type))
             self.lTensorInfo.append((buf.shape, torch_dtype_from_trt(trt_type), buf.nbytes))
@@ -80,7 +87,7 @@ class TRTDriver(object):
             cudart.cudaFree(b)
 
 class TRTDriverCUDAGraph(object):
-    def __init__(self, trt_engine_path):
+    def __init__(self, trt_engine_path, bs=1):
         self.logger = trt.Logger(trt.Logger.VERBOSE)
 
         print("Setup CUDA streams...")
@@ -104,6 +111,13 @@ class TRTDriverCUDAGraph(object):
         self.nInput = [self.engine.get_tensor_mode(self.lTensorName[i]) for i in range(self.nIO)].count(trt.TensorIOMode.INPUT)
         self.nOutput = self.nIO - self.nInput
 
+        for i in range(self.nInput):
+            shape = self.context.get_binding_shape(i)
+            shape[0] = bs
+            self.context.set_binding_shape(i, shape)
+        
+        self.context.infer_shapes()
+
         for i in range(self.nIO):
             print("controlnet_trt [%2d]%s->" % (i, "Input " if i < self.nInput else "Output"), self.engine.get_tensor_dtype(self.lTensorName[i]), self.engine.get_tensor_shape(self.lTensorName[i]), self.context.get_tensor_shape(self.lTensorName[i]), self.lTensorName[i])
 
@@ -111,7 +125,7 @@ class TRTDriverCUDAGraph(object):
         self.buffersD = []
         self.lTensorInfo = []
         for i in range(self.nIO):
-            shape = self.context.get_tensor_shape(self.lTensorName[i])
+            shape = self.context.get_binding_shape(i)
             trt_type = self.engine.get_tensor_dtype(self.lTensorName[i])
             buf = np.empty(shape, dtype=trt.nptype(trt_type))
             self.lTensorInfo.append((buf.shape, torch_dtype_from_trt(trt_type), buf.nbytes))
@@ -163,7 +177,7 @@ class TRTDriverCUDAGraph(object):
             cudart.cudaFree(b)
 
 class TRTDriverCUDAGraphAsync(object):
-    def __init__(self, trt_engine_path, cuda_stream, use_cuda_graph=True):
+    def __init__(self, trt_engine_path, cuda_stream, bs=1, use_cuda_graph=True):
         self.logger = trt.Logger(trt.Logger.VERBOSE)
 
         self.stream = cuda_stream
@@ -187,6 +201,13 @@ class TRTDriverCUDAGraphAsync(object):
         self.nInput = [self.engine.get_tensor_mode(self.lTensorName[i]) for i in range(self.nIO)].count(trt.TensorIOMode.INPUT)
         self.nOutput = self.nIO - self.nInput
 
+        for i in range(self.nInput):
+            shape = self.context.get_binding_shape(i)
+            shape[0] = bs
+            self.context.set_binding_shape(i, shape)
+        
+        self.context.infer_shapes()
+
         for i in range(self.nIO):
             print("controlnet_trt [%2d]%s->" % (i, "Input " if i < self.nInput else "Output"), self.engine.get_tensor_dtype(self.lTensorName[i]), self.engine.get_tensor_shape(self.lTensorName[i]), self.context.get_tensor_shape(self.lTensorName[i]), self.lTensorName[i])
 
@@ -194,7 +215,7 @@ class TRTDriverCUDAGraphAsync(object):
         self.buffersD = []
         self.lTensorInfo = []
         for i in range(self.nIO):
-            shape = self.context.get_tensor_shape(self.lTensorName[i])
+            shape = self.context.get_binding_shape(i)
             trt_type = self.engine.get_tensor_dtype(self.lTensorName[i])
             buf = np.empty(shape, dtype=trt.nptype(trt_type))
             self.lTensorInfo.append((buf.shape, torch_dtype_from_trt(trt_type), buf.nbytes))
