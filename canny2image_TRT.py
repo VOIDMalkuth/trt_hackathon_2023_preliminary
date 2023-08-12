@@ -55,6 +55,7 @@ class hackathon():
 
     def process(self, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, ddim_steps, guess_mode, strength, scale, seed, eta, low_threshold, high_threshold):
         with torch.no_grad():
+            ddim_steps = int(ddim_steps * 0.75)
             img = resize_image(HWC3(input_image), image_resolution)
             H, W, C = img.shape
 
