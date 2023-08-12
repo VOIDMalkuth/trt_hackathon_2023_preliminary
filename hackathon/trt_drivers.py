@@ -323,7 +323,6 @@ class ClipTRT(TRTDriverCUDAGraphAsync):
         super().__init__(*args, **kwargs)
         version="openai/clip-vit-large-patch14"
         self.tokenizer = CLIPTokenizer.from_pretrained(version)
-        _, self.stream = cudart.cudaStreamCreate()
     
     def __call__(self, text) -> Any:
         if self.batch_size == 1:
