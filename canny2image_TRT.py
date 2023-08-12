@@ -39,9 +39,10 @@ class hackathon():
             self.model.export_calib_data = True
         else:
             self.bs = 2
-            fused_controlnet_and_unet_trt = FusedControlnetAndUnetTrt("trt_controlnet.plan", "trt_unet.plan", self.stream, bs=self.bs)
-            vae_trt = VaeTRT("trt_vae_batch_1.plan", self.stream, bs=1)
-            clip_trt = ClipTRT("trt_clip.plan", self.stream, bs=self.bs)
+            use_cuda_graph = True
+            fused_controlnet_and_unet_trt = FusedControlnetAndUnetTrt("trt_controlnet.plan", "trt_unet.plan", self.stream, bs=self.bs, use_cuda_graph=use_cuda_graph)
+            vae_trt = VaeTRT("trt_vae_batch_1.plan", self.stream, bs=1, use_cuda_graph=use_cuda_graph)
+            clip_trt = ClipTRT("trt_clip.plan", self.stream, bs=self.bs, use_cuda_graph=use_cuda_graph)
             self.model.updateTrtEngines({
                 "FusedControlnetAndUnetTrt": fused_controlnet_and_unet_trt,
                 "VAE": vae_trt,
