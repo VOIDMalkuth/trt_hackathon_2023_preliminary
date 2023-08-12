@@ -231,6 +231,18 @@ class TRTDriverCUDAGraphAsync(object):
         for i in range(self.nIO):
             self.context.set_tensor_address(self.lTensorName[i], int(self.buffersD[i]))
         print("Succeed setting up IO buffers!")
+        
+        if self.use_cuda_graph:
+            print("Setting up cuda graph")
+            self.context.execute_async_v3(self.stream)
+            cudart.cudaStreamBeginCapture(self.stream, cudart.cudaStreamCaptureMode.cudaStreamCaptureModeGlobal)
+            self.context.execute_async_v3(self.stream)
+            status, self.cuda_graph = cudart.cudaStreamEndCapture(self.stream)
+            status, self.cuda_graph_exec = cudart.cudaGraphInstantiate(self.cuda_graph, 0)
+            cudart.cudaGraphLaunch(self.cuda_graph_exec, self.stream)
+            self.cuda_graph_status = "READY"
+            print("Successfully captured CUDA Graph!")
+        
         print("TRT engine init finished!")
 
     def do_inference(self, inputBuffers):
@@ -238,27 +250,18 @@ class TRTDriverCUDAGraphAsync(object):
         # inputBuffers is list of torch cuda tensors
         for i in range(self.nInput):
             cudart.cudaMemcpyAsync(self.buffersD[i], inputBuffers[i].data_ptr(), self.lTensorInfo[i][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
-        
-        # start execution
-        if self.cuda_graph_status == "UNINITED":
-            self.context.execute_async_v3(self.stream)
-            if self.use_cuda_graph:
-                self.cuda_graph_status = "UNCAPTURED"
-        elif self.cuda_graph_status == "UNCAPTURED":
-            cudart.cudaStreamBeginCapture(self.stream, cudart.cudaStreamCaptureMode.cudaStreamCaptureModeGlobal)
-            self.context.execute_async_v3(self.stream)
-            _, self.cuda_graph = cudart.cudaStreamEndCapture(self.stream)
-            _, self.cuda_graph_exec = cudart.cudaGraphInstantiate(self.cuda_graph, 0)
-            self.cuda_graph_status = "READY"
-            print("Successfully captured CUDA Graph!")
-        else:
-            cudart.cudaGraphLaunch(self.cuda_graph_exec, self.stream)
-
         # create device tensor for torch
         with torch.device('cuda'):
             outputBufs = []
             for i in range(self.nInput, self.nIO):
                 outputBufs.append(torch.empty(size=self.lTensorInfo[i][0], dtype=torch.float32))
+        
+        # start execution
+        if self.use_cuda_graph:
+            cudart.cudaGraphLaunch(self.cuda_graph_exec, self.stream)
+        else:
+            self.context.execute_async_v3(self.stream)
+
         # copy outputs
         for i in range(self.nInput, self.nIO):
             cudart.cudaMemcpyAsync(outputBufs[i - self.nInput].data_ptr(), self.buffersD[i], self.lTensorInfo[i][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
@@ -281,7 +284,7 @@ class ControlNetTRT(TRTDriverCUDAGraphAsync):
         assert(timesteps is not None)
         assert(context is not None)
         
-        inputBuffers = [x.cuda(), hint.cuda(), timesteps.cuda(), context.cuda()]
+        inputBuffers = [x.contiguous().cuda(), hint.contiguous().cuda(), timesteps.contiguous().cuda(), context.contiguous().cuda()]
 
         inference_results = self.do_inference(inputBuffers)
         if len(inference_results) == 1:
@@ -297,7 +300,7 @@ class UNetTRT(TRTDriverCUDAGraphAsync):
         assert(control is not None)
         assert(len(control) == 13)
         
-        inputBuffers = [x.cuda(), timesteps.cuda(), context.cuda()]
+        inputBuffers = [x.contiguous().cuda(), timesteps.contiguous().cuda(), context.contiguous().cuda()]
         for i in range(len(control)):
             inputBuffers.append(control[i].cuda())
 
@@ -317,15 +320,16 @@ class VaeTRT(TRTDriverCUDAGraphAsync):
     
 class ClipTRT(TRTDriverCUDAGraphAsync):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs, use_cuda_graph=False)
+        super().__init__(*args, **kwargs, use_cuda_graph=True)
         version="openai/clip-vit-large-patch14"
         self.tokenizer = CLIPTokenizer.from_pretrained(version)
+        _, self.stream = cudart.cudaStreamCreate()
     
     def __call__(self, text) -> Any:
         if self.batch_size == 1:
             batch_encoding = self.tokenizer(text, truncation=True, max_length=77, return_length=True,
                                         return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
-            tokens = batch_encoding["input_ids"].to(torch.int32)
+            tokens = batch_encoding["input_ids"].to(torch.int32).cuda()
         else:
             assert len(text) == 2
             batch_encoding0 = self.tokenizer(text[0], truncation=True, max_length=77, return_length=True,
@@ -335,7 +339,7 @@ class ClipTRT(TRTDriverCUDAGraphAsync):
                                         return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
             tokens1 = batch_encoding1["input_ids"].to(torch.int32).cuda()
             tokens = torch.cat((tokens0, tokens1), 0)
-            
-        inputBuffers = [tokens.cuda()]
+        
+        inputBuffers = [tokens.contiguous().cuda()]
         inference_results = self.do_inference(inputBuffers)
         return inference_results[0]

@@ -28,7 +28,7 @@ def export_controlnet_onnx(control_ldm_model):
     
     hint = torch.randn(*IMAGE_HINT_SHAPE, dtype=torch.float32)
     x_noisy = torch.randn(*X_NOISY_SHAPE, dtype=torch.float32)
-    timesteps = torch.tensor([500], dtype=torch.int64)
+    timesteps = torch.tensor([500], dtype=torch.int32)
     context = torch.randn(*CONTEXT_SHAPE, dtype=torch.float32)
 
     outs = controlnet_model(x=x_noisy, hint=hint, timesteps=timesteps, context=context)
@@ -77,7 +77,7 @@ def export_unet_onnx(control_ldm_model):
     unet_model = control_ldm_model.model.diffusion_model
     
     x_noisy = torch.randn(*X_NOISY_SHAPE, dtype=torch.float32)
-    timesteps = torch.tensor([500], dtype=torch.int64)
+    timesteps = torch.tensor([500], dtype=torch.int32)
     context = torch.randn(*CONTEXT_SHAPE, dtype=torch.float32)
     control_orig = [torch.randn(*i, dtype=torch.float32) for i in CONTROL_FEATURE_SHAPES]
     control = control_orig.copy()
@@ -155,7 +155,7 @@ def export_clip_onnx(control_ldm_model):
     clip_model = control_ldm_model.cond_stage_model.transformer
     clip_model.eval()
 
-    tokens = torch.ones(*TOKENS_SHAPE, dtype=torch.int64)
+    tokens = torch.ones(*TOKENS_SHAPE, dtype=torch.int32)
     outs = clip_model(tokens)
 
     torch.onnx.export(
