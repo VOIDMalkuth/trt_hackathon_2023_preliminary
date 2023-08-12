@@ -383,7 +383,7 @@ class ControlLDM(LatentDiffusion):
         assert self.batch_size == 2
         assert isinstance(cond, dict)
         assert self.fused_controlnet_and_unet_trt is not None
-        return self.fused_controlnet_and_unet_trt.fused_apply_model_bs2(x_noisy, t, cond, uncond, self.control_scales)
+        return self.fused_controlnet_and_unet_trt.fused_apply_model_bs2(x_noisy, t, cond, uncond)
 
     @torch.no_grad()
     def get_unconditional_conditioning(self, N):

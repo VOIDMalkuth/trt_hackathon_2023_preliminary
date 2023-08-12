@@ -105,10 +105,26 @@ class FusedControlnetAndUnetTrt(object):
         
         if self.use_cuda_graph:
             print("Setting up cuda graph")
+            self.execute_inference()
+            cudart.cudaStreamBeginCapture(self.stream, cudart.cudaStreamCaptureMode.cudaStreamCaptureModeGlobal)
+            self.execute_inference()
+            status, self.cuda_graph = cudart.cudaStreamEndCapture(self.stream)
+            status, self.cuda_graph_exec = cudart.cudaGraphInstantiate(self.cuda_graph, 0)
+            cudart.cudaGraphLaunch(self.cuda_graph_exec, self.stream)
+            self.cuda_graph_status = "READY"
+            print("Successfully captured CUDA Graph!")
         
         print("TRT engine init finished!")
 
-    def fused_apply_model_bs2(self, x_noisy, t, cond, uncond, control_scales):
+    def execute_inference(self):
+        torch.cuda.nvtx.range_push("[fused_applymodel_controlnet_bs2]")
+        self.controlnet_context.execute_async_v3(self.stream)
+        torch.cuda.nvtx.range_pop()    
+        torch.cuda.nvtx.range_push("[fused_applymodel_unet_bs2]")
+        self.unet_context.execute_async_v3(self.stream)
+        torch.cuda.nvtx.range_pop()
+
+    def fused_apply_model_bs2(self, x_noisy, t, cond, uncond):
         torch.cuda.nvtx.range_push("[prepare_fused_bs2]")
         
         cond_txt = torch.cat(cond['c_crossattn'], 1)
@@ -118,34 +134,17 @@ class FusedControlnetAndUnetTrt(object):
         hint_cond = torch.cat(cond['c_concat'], 1)
         hint_uncond = torch.cat(uncond['c_concat'], 1)
         
-        x_noisy_bs2 = torch.cat((x_noisy, x_noisy), 0)
-        t_bs2 = torch.cat((t, t), 0)
-        tint32_bs2 = t_bs2.to(torch.int32)
-        context_bs2 = torch.cat((cond_txt, uncond_txt), 0)
-        hint_bs2 = torch.cat((hint_cond, hint_uncond), 0)
-        
-        # data copy
-        names = ["x_noisy", "hint", "timesteps", "context"]
-        cudart.cudaMemcpyAsync(self.buffersD["x_noisy"], x_noisy_bs2.data_ptr(), self.dTensorInfo["x_noisy"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
-        cudart.cudaMemcpyAsync(self.buffersD["hint"], hint_bs2.data_ptr(), self.dTensorInfo["hint"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
-        cudart.cudaMemcpyAsync(self.buffersD["timesteps"], tint32_bs2.data_ptr(), self.dTensorInfo["timesteps"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
-        cudart.cudaMemcpyAsync(self.buffersD["context"], context_bs2.data_ptr(), self.dTensorInfo["context"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
-        
-        torch.cuda.nvtx.range_pop()
-        torch.cuda.nvtx.range_push("[fused_applymodel_controlnet_bs2]")
-        
-        self.controlnet_context.execute_async_v3(self.stream)
-        
+        self.buffersT["x_noisy"][:] = torch.cat((x_noisy, x_noisy), 0)
+        self.buffersT["timesteps"][:] = torch.cat((t, t), 0).to(torch.int32)
+        self.buffersT["context"][:] = torch.cat((cond_txt, uncond_txt), 0)
+        self.buffersT["hint"][:] = torch.cat((hint_cond, hint_uncond), 0)
+
         torch.cuda.nvtx.range_pop()
         
-        for i in range(13):
-            self.buffersT['control_'+str(i + 1)][:] = (self.buffersT['control_'+str(i + 1)] * control_scales[i])
-            
-        torch.cuda.nvtx.range_push("[fused_applymodel_unet_bs2]")
-        
-        self.unet_context.execute_async_v3(self.stream)
-        
-        torch.cuda.nvtx.range_pop()
+        if self.use_cuda_graph:
+            cudart.cudaGraphLaunch(self.cuda_graph_exec, self.stream)
+        else:
+            self.execute_inference()
         
         # create device tensor for torch
         with torch.device('cuda'):
