@@ -1,0 +1,505 @@
+[08/12/2023-04:08:49] [TRT] [I] Loaded engine size: 696 MiB
+[08/12/2023-04:08:49] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:49] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:50] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:50] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/12/2023-04:08:50] [TRT] [V] Loaded shared library libcublas.so.11
+[08/12/2023-04:08:50] [TRT] [V] Using cublas as plugin tactic source
+[08/12/2023-04:08:50] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +8, now: CPU 3441, GPU 7936 (MiB)
+[08/12/2023-04:08:50] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/12/2023-04:08:50] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/12/2023-04:08:50] [TRT] [V] Using cuDNN as plugin tactic source
+[08/12/2023-04:08:50] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +1, GPU +14, now: CPU 3442, GPU 7950 (MiB)
+[08/12/2023-04:08:50] [TRT] [W] TensorRT was linked against cuDNN 8.9.0 but loaded cuDNN 8.7.0
+[08/12/2023-04:08:50] [TRT] [V] Deserialization required 1198309 microseconds.
+[08/12/2023-04:08:50] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +689, now: CPU 0, GPU 689 (MiB)
+[08/12/2023-04:08:50] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/12/2023-04:08:50] [TRT] [V] Loaded shared library libcublas.so.11
+[08/12/2023-04:08:50] [TRT] [V] Using cublas as plugin tactic source
+[08/12/2023-04:08:50] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +8, now: CPU 3442, GPU 7942 (MiB)
+[08/12/2023-04:08:50] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/12/2023-04:08:50] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/12/2023-04:08:50] [TRT] [V] Using cuDNN as plugin tactic source
+[08/12/2023-04:08:50] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +0, GPU +8, now: CPU 3442, GPU 7950 (MiB)
+[08/12/2023-04:08:50] [TRT] [W] TensorRT was linked against cuDNN 8.9.0 but loaded cuDNN 8.7.0
+[08/12/2023-04:08:50] [TRT] [V] Total per-runner device persistent memory is 45056
+[08/12/2023-04:08:50] [TRT] [V] Total per-runner host persistent memory is 373360
+[08/12/2023-04:08:50] [TRT] [V] Allocated activation device memory of size 47875584
+[08/12/2023-04:08:50] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +45, now: CPU 0, GPU 734 (MiB)
+[08/12/2023-04:08:50] [TRT] [W] CUDA lazy loading is not enabled. Enabling it can significantly reduce device memory usage and speed up TensorRT initialization. See "Lazy Loading" section of CUDA documentation https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#lazy-loading
+[08/12/2023-04:08:52] [TRT] [I] The logger passed into createInferRuntime differs from one already provided for an existing builder, runtime, or refitter. Uses of the global logger, returned by nvinfer1::getLogger(), will return the existing value.
+[08/12/2023-04:08:52] [TRT] [I] Loaded engine size: 1651 MiB
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:52] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:52] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/12/2023-04:08:52] [TRT] [V] Loaded shared library libcublas.so.11
+[08/12/2023-04:08:52] [TRT] [V] Using cublas as plugin tactic source
+[08/12/2023-04:08:52] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +8, now: CPU 4980, GPU 10668 (MiB)
+[08/12/2023-04:08:52] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/12/2023-04:08:52] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/12/2023-04:08:52] [TRT] [V] Using cuDNN as plugin tactic source
+[08/12/2023-04:08:52] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +1, GPU +12, now: CPU 4981, GPU 10680 (MiB)
+[08/12/2023-04:08:52] [TRT] [W] TensorRT was linked against cuDNN 8.9.0 but loaded cuDNN 8.7.0
+[08/12/2023-04:08:52] [TRT] [V] Deserialization required 773807 microseconds.
+[08/12/2023-04:08:52] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +1640, now: CPU 0, GPU 2374 (MiB)
+[08/12/2023-04:08:52] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/12/2023-04:08:52] [TRT] [V] Loaded shared library libcublas.so.11
+[08/12/2023-04:08:52] [TRT] [V] Using cublas as plugin tactic source
+[08/12/2023-04:08:52] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +8, now: CPU 4981, GPU 10672 (MiB)
+[08/12/2023-04:08:52] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/12/2023-04:08:52] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/12/2023-04:08:52] [TRT] [V] Using cuDNN as plugin tactic source
+[08/12/2023-04:08:52] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +0, GPU +8, now: CPU 4981, GPU 10680 (MiB)
+[08/12/2023-04:08:52] [TRT] [W] TensorRT was linked against cuDNN 8.9.0 but loaded cuDNN 8.7.0
+[08/12/2023-04:08:52] [TRT] [V] Total per-runner device persistent memory is 101376
+[08/12/2023-04:08:52] [TRT] [V] Total per-runner host persistent memory is 574016
+[08/12/2023-04:08:52] [TRT] [V] Allocated activation device memory of size 52808704
+[08/12/2023-04:08:53] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +1, GPU +50, now: CPU 1, GPU 2424 (MiB)
+[08/12/2023-04:08:53] [TRT] [W] CUDA lazy loading is not enabled. Enabling it can significantly reduce device memory usage and speed up TensorRT initialization. See "Lazy Loading" section of CUDA documentation https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#lazy-loading
+[08/12/2023-04:08:53] [TRT] [I] The logger passed into createInferRuntime differs from one already provided for an existing builder, runtime, or refitter. Uses of the global logger, returned by nvinfer1::getLogger(), will return the existing value.
+[08/12/2023-04:08:53] [TRT] [I] Loaded engine size: 96 MiB
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Local registry did not find InstanceNormalization_TRT creator. Will try parent registry if enabled.
+[08/12/2023-04:08:53] [TRT] [V] Global registry found InstanceNormalization_TRT creator.
+[08/12/2023-04:08:53] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/12/2023-04:08:53] [TRT] [V] Loaded shared library libcublas.so.11
+[08/12/2023-04:08:53] [TRT] [V] Using cublas as plugin tactic source
+[08/12/2023-04:08:53] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +8, now: CPU 3506, GPU 11898 (MiB)
+[08/12/2023-04:08:53] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/12/2023-04:08:53] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/12/2023-04:08:53] [TRT] [V] Using cuDNN as plugin tactic source
+[08/12/2023-04:08:53] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +0, GPU +10, now: CPU 3506, GPU 11908 (MiB)
+[08/12/2023-04:08:53] [TRT] [W] TensorRT was linked against cuDNN 8.9.0 but loaded cuDNN 8.7.0
+[08/12/2023-04:08:53] [TRT] [V] Deserialization required 68835 microseconds.
+[08/12/2023-04:08:53] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +95, now: CPU 1, GPU 2519 (MiB)
+[08/12/2023-04:08:53] [TRT] [V] Trying to load shared library libcublas.so.11
+[08/12/2023-04:08:53] [TRT] [V] Loaded shared library libcublas.so.11
+[08/12/2023-04:08:53] [TRT] [V] Using cublas as plugin tactic source
+[08/12/2023-04:08:53] [TRT] [I] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +8, now: CPU 3506, GPU 11900 (MiB)
+[08/12/2023-04:08:53] [TRT] [V] Trying to load shared library libcudnn.so.8
+[08/12/2023-04:08:53] [TRT] [V] Loaded shared library libcudnn.so.8
+[08/12/2023-04:08:53] [TRT] [V] Using cuDNN as plugin tactic source
+[08/12/2023-04:08:53] [TRT] [I] [MemUsageChange] Init cuDNN: CPU +0, GPU +8, now: CPU 3506, GPU 11908 (MiB)
+[08/12/2023-04:08:53] [TRT] [W] TensorRT was linked against cuDNN 8.9.0 but loaded cuDNN 8.7.0
+[08/12/2023-04:08:53] [TRT] [V] Total per-runner device persistent memory is 0
+[08/12/2023-04:08:53] [TRT] [V] Total per-runner host persistent memory is 231632
+[08/12/2023-04:08:53] [TRT] [V] Allocated activation device memory of size 179306496
+[08/12/2023-04:08:53] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +171, now: CPU 1, GPU 2690 (MiB)
+[08/12/2023-04:08:53] [TRT] [W] CUDA lazy loading is not enabled. Enabling it can significantly reduce device memory usage and speed up TensorRT initialization. See "Lazy Loading" section of CUDA documentation https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#lazy-loading
+[08/12/2023-04:08:53] [TRT] [I] The logger passed into createInferRuntime differs from one already provided for an existing builder, runtime, or refitter. Uses of the global logger, returned by nvinfer1::getLogger(), will return the existing value.
+[08/12/2023-04:08:53] [TRT] [I] Loaded engine size: 471 MiB
+[08/12/2023-04:08:54] [TRT] [V] Deserialization required 431656 microseconds.
+[08/12/2023-04:08:54] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +469, now: CPU 1, GPU 3159 (MiB)
+[08/12/2023-04:08:54] [TRT] [V] Total per-runner device persistent memory is 0
+[08/12/2023-04:08:54] [TRT] [V] Total per-runner host persistent memory is 32
+[08/12/2023-04:08:54] [TRT] [V] Allocated activation device memory of size 5870592
+[08/12/2023-04:08:54] [TRT] [I] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +6, now: CPU 1, GPU 3165 (MiB)
+[08/12/2023-04:08:54] [TRT] [W] CUDA lazy loading is not enabled. Enabling it can significantly reduce device memory usage and speed up TensorRT initialization. See "Lazy Loading" section of CUDA documentation https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#lazy-loading
+logging improved.
+No module 'xformers'. Proceeding without it.
+ControlLDM: Running in eps-prediction mode
+DiffusionWrapper has 859.52 M params.
+making attention of type 'vanilla' with 512 in_channels
+Working with z of shape (1, 4, 32, 32) = 4096 dimensions.
+making attention of type 'vanilla' with 512 in_channels
+Loaded model config from [./models/cldm_v15.yaml]
+Loaded state_dict from [/home/player/ControlNet/models/control_sd15_canny.pth]
+Deserializing controlnet_trt engine...
+Succeed deserializing controlnet_trt engine!
+controlnet_trt [ 0]Input -> DataType.FLOAT (-1, 4, 32, 48) (-1, 4, 32, 48) x_noisy
+controlnet_trt [ 1]Input -> DataType.FLOAT (-1, 3, 256, 384) (-1, 3, 256, 384) hint
+controlnet_trt [ 2]Input -> DataType.INT32 (-1,) (-1,) timesteps
+controlnet_trt [ 3]Input -> DataType.FLOAT (-1, 77, 768) (-1, 77, 768) context
+controlnet_trt [ 4]Output-> DataType.FLOAT (-1, 320, 32, 48) (-1, 320, 32, 48) control_1
+controlnet_trt [ 5]Output-> DataType.FLOAT (-1, 320, 32, 48) (-1, 320, 32, 48) control_2
+controlnet_trt [ 6]Output-> DataType.FLOAT (-1, 320, 32, 48) (-1, 320, 32, 48) control_3
+controlnet_trt [ 7]Output-> DataType.FLOAT (-1, 320, 16, 24) (-1, 320, 16, 24) control_4
+controlnet_trt [ 8]Output-> DataType.FLOAT (-1, 640, 16, 24) (-1, 640, 16, 24) control_5
+controlnet_trt [ 9]Output-> DataType.FLOAT (-1, 640, 16, 24) (-1, 640, 16, 24) control_6
+controlnet_trt [10]Output-> DataType.FLOAT (-1, 640, 8, 12) (-1, 640, 8, 12) control_7
+controlnet_trt [11]Output-> DataType.FLOAT (-1, 1280, 8, 12) (-1, 1280, 8, 12) control_8
+controlnet_trt [12]Output-> DataType.FLOAT (-1, 1280, 8, 12) (-1, 1280, 8, 12) control_9
+controlnet_trt [13]Output-> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_10
+controlnet_trt [14]Output-> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_11
+controlnet_trt [15]Output-> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_12
+controlnet_trt [16]Output-> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_13
+Setting up IO buffers...
+Succeed setting up IO buffers!
+Setting up cuda graph
+Successfully captured CUDA Graph!
+TRT engine init finished!
+Deserializing controlnet_trt engine...
+Succeed deserializing controlnet_trt engine!
+controlnet_trt [ 0]Input -> DataType.FLOAT (-1, 4, 32, 48) (-1, 4, 32, 48) x_noisy
+controlnet_trt [ 1]Input -> DataType.INT32 (-1,) (-1,) timesteps
+controlnet_trt [ 2]Input -> DataType.FLOAT (-1, 77, 768) (-1, 77, 768) context
+controlnet_trt [ 3]Input -> DataType.FLOAT (-1, 320, 32, 48) (-1, 320, 32, 48) control_1
+controlnet_trt [ 4]Input -> DataType.FLOAT (-1, 320, 32, 48) (-1, 320, 32, 48) control_2
+controlnet_trt [ 5]Input -> DataType.FLOAT (-1, 320, 32, 48) (-1, 320, 32, 48) control_3
+controlnet_trt [ 6]Input -> DataType.FLOAT (-1, 320, 16, 24) (-1, 320, 16, 24) control_4
+controlnet_trt [ 7]Input -> DataType.FLOAT (-1, 640, 16, 24) (-1, 640, 16, 24) control_5
+controlnet_trt [ 8]Input -> DataType.FLOAT (-1, 640, 16, 24) (-1, 640, 16, 24) control_6
+controlnet_trt [ 9]Input -> DataType.FLOAT (-1, 640, 8, 12) (-1, 640, 8, 12) control_7
+controlnet_trt [10]Input -> DataType.FLOAT (-1, 1280, 8, 12) (-1, 1280, 8, 12) control_8
+controlnet_trt [11]Input -> DataType.FLOAT (-1, 1280, 8, 12) (-1, 1280, 8, 12) control_9
+controlnet_trt [12]Input -> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_10
+controlnet_trt [13]Input -> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_11
+controlnet_trt [14]Input -> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_12
+controlnet_trt [15]Input -> DataType.FLOAT (-1, 1280, 4, 6) (-1, 1280, 4, 6) control_13
+controlnet_trt [16]Output-> DataType.FLOAT (-1, 4, 32, 48) (-1, 4, 32, 48) eps
+Setting up IO buffers...
+Succeed setting up IO buffers!
+Setting up cuda graph
+Successfully captured CUDA Graph!
+TRT engine init finished!
+Deserializing controlnet_trt engine...
+Succeed deserializing controlnet_trt engine!
+controlnet_trt [ 0]Input -> DataType.FLOAT (1, 4, 32, 48) (1, 4, 32, 48) z
+controlnet_trt [ 1]Output-> DataType.FLOAT (1, 3, 256, 384) (1, 3, 256, 384) x_samples
+Setting up IO buffers...
+Succeed setting up IO buffers!
+Setting up cuda graph
+Successfully captured CUDA Graph!
+TRT engine init finished!
+Deserializing controlnet_trt engine...
+Succeed deserializing controlnet_trt engine!
+controlnet_trt [ 0]Input -> DataType.INT32 (-1, 77) (-1, 77) tokens
+controlnet_trt [ 1]Output-> DataType.FLOAT (-1, 77, 768) (-1, 77, 768) cond_out
+controlnet_trt [ 2]Output-> DataType.FLOAT (-1, 768) (-1, 768) other_states
+Setting up IO buffers...
+Succeed setting up IO buffers!
+Setting up cuda graph
+Successfully captured CUDA Graph!
+TRT engine init finished!
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  359.06410217285156
+Perceptual distance to: 2.27
+score is:  2.2713622804222173
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  352.2970676422119
+Perceptual distance to: 2.88
+score is:  2.884912702758569
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  343.74403953552246
+Perceptual distance to: 2.97
+score is:  2.9685264462976284
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  346.04382514953613
+Perceptual distance to: 1.50
+score is:  1.4961538724055434
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  341.3081169128418
+Perceptual distance to: 6.90
+score is:  6.89968354920851
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  335.4008197784424
+Perceptual distance to: 4.91
+score is:  4.90645784604368
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  337.19491958618164
+Perceptual distance to: 3.30
+score is:  3.302757386198451
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  339.447021484375
+Perceptual distance to: 2.68
+score is:  2.680586829131643
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  334.4249725341797
+Perceptual distance to: 4.26
+score is:  4.25988435635493
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  344.0840244293213
+Perceptual distance to: 2.11
+score is:  2.1094938561666763
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  340.3468132019043
+Perceptual distance to: 2.03
+score is:  2.032969014992925
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  342.0541286468506
+Perceptual distance to: 2.50
+score is:  2.504180946413069
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  337.67104148864746
+Perceptual distance to: 3.66
+score is:  3.6635555482479716
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  336.54093742370605
+Perceptual distance to: 1.96
+score is:  1.9649505194968189
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  330.07311820983887
+Perceptual distance to: 1.84
+score is:  1.8390431150977569
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  333.1949710845947
+Perceptual distance to: 2.64
+score is:  2.6386446519838196
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  341.7549133300781
+Perceptual distance to: 3.29
+score is:  3.2934268382699186
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  332.9930305480957
+Perceptual distance to: 3.14
+score is:  3.1384823824656625
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  330.6620121002197
+Perceptual distance to: 5.38
+score is:  5.3838333164659655
+Data shape for DDIM sampling is (1, 4, 32, 48), eta 0.0
+Running DDIM Sampling with 20 timesteps
+time cost is:  339.83898162841797
+Perceptual distance to: 4.54
+score is:  4.538554544573637
+Scores: [2.2713622804222173, 2.884912702758569, 2.9685264462976284, 1.4961538724055434, 6.89968354920851, 4.90645784604368, 3.302757386198451, 2.680586829131643, 4.25988435635493, 2.1094938561666763, 2.032969014992925, 2.504180946413069, 3.6635555482479716, 1.9649505194968189, 1.8390431150977569, 2.6386446519838196, 3.2934268382699186, 3.1384823824656625, 5.3838333164659655, 4.538554544573637]
+Latencys: [359.06410217285156, 352.2970676422119, 343.74403953552246, 346.04382514953613, 341.3081169128418, 335.4008197784424, 337.19491958618164, 339.447021484375, 334.4249725341797, 344.0840244293213, 340.3468132019043, 342.0541286468506, 337.67104148864746, 336.54093742370605, 330.07311820983887, 333.1949710845947, 341.7549133300781, 332.9930305480957, 330.6620121002197, 339.83898162841797]
+Score max: 6.89968354920851 , average: 3.238873000149769
+Latency average: 339.90694284439087

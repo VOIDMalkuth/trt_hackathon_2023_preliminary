@@ -320,7 +320,7 @@ class VaeTRT(TRTDriverCUDAGraphAsync):
     
 class ClipTRT(TRTDriverCUDAGraphAsync):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs, use_cuda_graph=True)
+        super().__init__(*args, **kwargs)
         version="openai/clip-vit-large-patch14"
         self.tokenizer = CLIPTokenizer.from_pretrained(version)
         _, self.stream = cudart.cudaStreamCreate()

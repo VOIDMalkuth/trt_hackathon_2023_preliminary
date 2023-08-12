@@ -314,8 +314,7 @@ class ControlLDM(LatentDiffusion):
         self.only_mid_control = only_mid_control
         self.control_scales = [1.0] * 13
 
-        self.controlnet_trt = None
-        self.unet_trt = None
+        self.fused_controlnet_and_unet_trt = None
         self.vae_trt = None
         self.clip_trt = None
         self.batch_size = 1
@@ -383,44 +382,8 @@ class ControlLDM(LatentDiffusion):
     def apply_model_bs2(self, x_noisy, t, cond, uncond, *args, **kwargs):
         assert self.batch_size == 2
         assert isinstance(cond, dict)
-        diffusion_model = self.model.diffusion_model
-
-        torch.cuda.nvtx.range_push("[prepare_bs2]")
-        
-        cond_txt = torch.cat(cond['c_crossattn'], 1)
-        uncond_txt = torch.cat(uncond['c_crossattn'], 1)
-        
-        assert cond['c_concat'] is not None
-        hint_cond = torch.cat(cond['c_concat'], 1)
-        hint_uncond = torch.cat(uncond['c_concat'], 1)
-        
-        x_noisy_bs2 = torch.cat((x_noisy, x_noisy), 0)
-        t_bs2 = torch.cat((t, t), 0)
-        context_bs2 = torch.cat((cond_txt, uncond_txt), 0)
-        hint_bs2 = torch.cat((hint_cond, hint_uncond), 0)
-        
-        torch.cuda.nvtx.range_pop()
-        torch.cuda.nvtx.range_push("[controlnet_bs2]")
-
-        if self.controlnet_trt is not None:
-            tint32_bs2 = t_bs2.to(torch.int32)
-            control = self.controlnet_trt(x=x_noisy_bs2, hint=hint_bs2, timesteps=tint32_bs2, context=context_bs2)
-        else:
-            control = self.control_model(x=x_noisy_bs2, hint=hint_bs2, timesteps=t_bs2, context=context_bs2)
-        control = [c * scale for c, scale in zip(control, self.control_scales)]
-
-        torch.cuda.nvtx.range_pop()
-        torch.cuda.nvtx.range_push("[unet_bs2]")
-        
-        if self.unet_trt is not None:
-            tint32_bs2 = t_bs2.to(torch.int32)
-            eps = self.unet_trt(x=x_noisy_bs2, timesteps=tint32_bs2, context=context_bs2, control=control, only_mid_control=self.only_mid_control)
-        else:
-            eps = diffusion_model(x=x_noisy_bs2, timesteps=t_bs2, context=context_bs2, control=control, only_mid_control=self.only_mid_control)
-
-        torch.cuda.nvtx.range_pop()
-
-        return eps
+        assert self.fused_controlnet_and_unet_trt is not None
+        return self.fused_controlnet_and_unet_trt.fused_apply_model_bs2(x_noisy, t, cond, uncond, self.control_scales)
 
     @torch.no_grad()
     def get_unconditional_conditioning(self, N):
@@ -517,8 +480,7 @@ class ControlLDM(LatentDiffusion):
             self.cond_stage_model = self.cond_stage_model.cuda()
 
     def updateTrtEngines(self, engines):
-        self.controlnet_trt = engines.get("ControlNet", self.controlnet_trt)
-        self.unet_trt = engines.get("UNet", self.unet_trt)
+        self.fused_controlnet_and_unet_trt = engines.get("FusedControlnetAndUnetTrt", self.fused_controlnet_and_unet_trt)
         self.vae_trt = engines.get("VAE", self.vae_trt)
         self.clip_trt = engines.get("CLIP", self.clip_trt)
         self.batch_size = engines.get("batch_size", self.batch_size)
