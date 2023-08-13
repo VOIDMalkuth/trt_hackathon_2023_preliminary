@@ -257,13 +257,9 @@ class DDIMSampler(object):
         h_a_t_sqrt = math.sqrt(alphas[index])
         h_a_prev = alphas_prev[index]
 
-        # current prediction for x_0
-        pred_x0 = (x - h_sqrt_one_minus_at * e_t) / h_a_t_sqrt
-
-        # direction pointing to x_t
-        dir_xt = math.sqrt(1. - h_a_prev) * e_t
-        x_prev = math.sqrt(h_a_prev) * pred_x0 + dir_xt
-        return x_prev, pred_x0
+        
+        x_prev = (math.sqrt(h_a_prev) / h_a_t_sqrt) * x + (math.sqrt(1. - h_a_prev) - math.sqrt(h_a_prev) / h_a_t_sqrt * h_sqrt_one_minus_at) * e_t 
+        return x_prev, None
 
     @torch.no_grad()
     def encode(self, x0, c, t_enc, use_original_steps=False, return_intermediates=None,
