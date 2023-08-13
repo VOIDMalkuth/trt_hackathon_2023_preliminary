@@ -156,6 +156,32 @@ class FusedControlnetAndUnetTrt(object):
         # cudart.cudaStreamSynchronize(self.stream)
         return outputBuf
     
+    def fused_apply_model_bs2_simplified(self, x_noisy, context, hint, ts):
+        torch.cuda.nvtx.range_push("[prepare_fused_bs2]")
+        
+        self.buffersT["x_noisy"][:] = torch.cat((x_noisy, x_noisy), 0)
+        
+        cudart.cudaMemcpyAsync(self.buffersD["timesteps"], ts.data_ptr(), self.dTensorInfo["timesteps"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
+        cudart.cudaMemcpyAsync(self.buffersD["context"], context.data_ptr(), self.dTensorInfo["context"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
+        cudart.cudaMemcpyAsync(self.buffersD["hint"], hint.data_ptr(), self.dTensorInfo["hint"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
+
+        torch.cuda.nvtx.range_pop()
+        
+        if self.use_cuda_graph:
+            cudart.cudaGraphLaunch(self.cuda_graph_exec, self.stream)
+        else:
+            self.execute_inference()
+        
+        # create device tensor for torch
+        with torch.device('cuda'):
+            outputBuf = torch.empty(size=self.dTensorInfo["eps"][0], dtype=torch.float32)
+        # copy outputs
+        cudart.cudaMemcpyAsync(outputBuf.data_ptr(), self.buffersD["eps"], self.dTensorInfo["eps"][2], cudart.cudaMemcpyKind.cudaMemcpyDeviceToDevice, self.stream)
+        
+        # no sync since we are using same stream for torch
+        # cudart.cudaStreamSynchronize(self.stream)
+        return outputBuf
+    
     def cuda():
         pass
 

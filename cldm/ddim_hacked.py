@@ -101,7 +101,7 @@ class DDIMSampler(object):
         size = (batch_size, C, H, W)
         print(f'Data shape for DDIM sampling is {size}, eta {eta}')
 
-        samples, intermediates = self.ddim_sampling(conditioning, size,
+        samples, intermediates = self.ddim_sampling_simplified(conditioning, size,
                                                     callback=callback,
                                                     img_callback=img_callback,
                                                     quantize_denoised=quantize_x0,
@@ -161,13 +161,70 @@ class DDIMSampler(object):
                 assert len(ucg_schedule) == len(time_range)
                 unconditional_guidance_scale = ucg_schedule[i]
 
-            outs = self.p_sample_ddim_simplified(img, cond, ts, index=index, use_original_steps=ddim_use_original_steps,
+            outs = self.p_sample_ddim(img, cond, ts, index=index, use_original_steps=ddim_use_original_steps,
                                       quantize_denoised=quantize_denoised, temperature=temperature,
                                       noise_dropout=noise_dropout, score_corrector=score_corrector,
                                       corrector_kwargs=corrector_kwargs,
                                       unconditional_guidance_scale=unconditional_guidance_scale,
                                       unconditional_conditioning=unconditional_conditioning,
                                       dynamic_threshold=dynamic_threshold)
+            img, pred_x0 = outs
+            if callback: callback(i)
+            if img_callback: img_callback(pred_x0, i)
+
+            if index % log_every_t == 0 or index == total_steps - 1:
+                intermediates['x_inter'].append(img)
+                intermediates['pred_x0'].append(pred_x0)
+
+        return img, intermediates
+    
+    @torch.no_grad()
+    def ddim_sampling_simplified(self, cond, shape,
+                      x_T=None, ddim_use_original_steps=False,
+                      callback=None, timesteps=None, quantize_denoised=False,
+                      mask=None, x0=None, img_callback=None, log_every_t=100,
+                      temperature=1., noise_dropout=0., score_corrector=None, corrector_kwargs=None,
+                      unconditional_guidance_scale=1., unconditional_conditioning=None, dynamic_threshold=None,
+                      ucg_schedule=None):
+        device = self.model.betas.device
+        b = shape[0]
+        if x_T is None:
+            img = torch.randn(shape, device=device)
+        else:
+            img = x_T
+
+        if timesteps is None:
+            timesteps = self.ddpm_num_timesteps if ddim_use_original_steps else self.ddim_timesteps
+        elif timesteps is not None and not ddim_use_original_steps:
+            subset_end = int(min(timesteps / self.ddim_timesteps.shape[0], 1) * self.ddim_timesteps.shape[0]) - 1
+            timesteps = self.ddim_timesteps[:subset_end]
+
+        intermediates = {'x_inter': [img], 'pred_x0': [img]}
+        time_range = reversed(range(0,timesteps)) if ddim_use_original_steps else np.flip(timesteps)
+        total_steps = timesteps if ddim_use_original_steps else timesteps.shape[0]
+        print(f"Running DDIM Sampling with {total_steps} timesteps")
+
+        iterator = tqdm(time_range, desc='DDIM Sampler', total=total_steps)
+        
+        
+        # compute context and hint
+        cond_txt = torch.cat(cond['c_crossattn'], 1)
+        uncond_txt = torch.cat(unconditional_conditioning['c_crossattn'], 1)
+        
+        assert cond['c_concat'] is not None
+        hint_cond = torch.cat(cond['c_concat'], 1)
+        hint_uncond = torch.cat(unconditional_conditioning['c_concat'], 1)
+        
+        context = torch.cat((cond_txt, uncond_txt), 0)
+        hint = torch.cat((hint_cond, hint_uncond), 0)
+
+        for i, step in enumerate(iterator):
+            index = total_steps - i - 1
+            ts = torch.full((2 * b,), step, device=device, dtype=torch.int32)
+            
+            # cond and unconditional_conditioning is not changed
+
+            outs = self.p_sample_ddim_simplified(img, context, hint, ts, index=index, unconditional_guidance_scale=unconditional_guidance_scale)
             img, pred_x0 = outs
             if callback: callback(i)
             if img_callback: img_callback(pred_x0, i)
@@ -235,15 +292,12 @@ class DDIMSampler(object):
         return x_prev, pred_x0
     
     @torch.no_grad()
-    def p_sample_ddim_simplified(self, x, c, t, index, repeat_noise=False, use_original_steps=False, quantize_denoised=False,
-                      temperature=1., noise_dropout=0., score_corrector=None, corrector_kwargs=None,
-                      unconditional_guidance_scale=1., unconditional_conditioning=None,
-                      dynamic_threshold=None):
+    def p_sample_ddim_simplified(self, x, context, hint, t, index, unconditional_guidance_scale=1.):
         b = 1
         device='cuda'
         assert self.model.batch_size == 2
         
-        model_t, model_uncond = self.model.apply_model_bs2(x, t, c, unconditional_conditioning).chunk(2)
+        model_t, model_uncond = self.model.fused_controlnet_and_unet_trt.fused_apply_model_bs2_simplified(x, context, hint, t).chunk(2)
         model_output = model_uncond + unconditional_guidance_scale * (model_t - model_uncond)
 
         e_t = model_output
