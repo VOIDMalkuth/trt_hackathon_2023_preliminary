@@ -127,6 +127,25 @@ class FrozenCLIPEmbedder(AbstractEncoder):
         else:
             z = outputs.hidden_states[self.layer_idx]
         return z
+    
+    def forward_bs2(self, texts):
+        text0, text1 = texts
+        batch_encoding0 = self.tokenizer(text0, truncation=True, max_length=self.max_length, return_length=True,
+                                        return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
+        tokens0 = batch_encoding0["input_ids"].to(self.device)
+        batch_encoding1 = self.tokenizer(text1, truncation=True, max_length=self.max_length, return_length=True,
+                                        return_overflowing_tokens=False, padding="max_length", return_tensors="pt")
+        tokens1 = batch_encoding1["input_ids"].to(self.device)
+        tokens = torch.cat([tokens0, tokens1])
+        # print(tokens.shape, tokens.dtype)
+        outputs = self.transformer(input_ids=tokens, output_hidden_states=self.layer=="hidden")
+        if self.layer == "last":
+            z = outputs.last_hidden_state
+        elif self.layer == "pooled":
+            z = outputs.pooler_output[:, None, :]
+        else:
+            z = outputs.hidden_states[self.layer_idx]
+        return z
 
     def encode(self, text):
         return self(text)

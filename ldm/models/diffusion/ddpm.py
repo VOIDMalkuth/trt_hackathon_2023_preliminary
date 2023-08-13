@@ -664,6 +664,8 @@ class LatentDiffusion(DDPM):
     def get_learned_conditioning(self, c):
         if self.clip_trt is not None:
             return self.clip_trt(c)
+        elif self.batch_size == 2:
+            return self.cond_stage_model.forward_bs2(c)
         elif self.cond_stage_forward is None:
             if hasattr(self.cond_stage_model, 'encode') and callable(self.cond_stage_model.encode):
                 c = self.cond_stage_model.encode(c)
