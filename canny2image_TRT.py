@@ -59,7 +59,7 @@ class hackathon():
         assert guess_mode is False
         
         with torch.no_grad():
-            ddim_steps = int(ddim_steps * 0.4)
+            ddim_steps = int(ddim_steps * 0.45)
             img = resize_image(HWC3(input_image), image_resolution)
             H, W, C = img.shape
 
