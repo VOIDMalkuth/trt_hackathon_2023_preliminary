@@ -55,7 +55,7 @@ class hackathon():
 
     def process(self, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, ddim_steps, guess_mode, strength, scale, seed, eta, low_threshold, high_threshold):
         with torch.no_grad():
-            ddim_steps = int(ddim_steps * 0.5)
+            ddim_steps = int(ddim_steps * 0.4)
             img = resize_image(HWC3(input_image), image_resolution)
             H, W, C = img.shape
 
@@ -76,7 +76,7 @@ class hackathon():
 
             cond_prompt = [prompt + ', ' + a_prompt] * num_samples
             uncond_prompt = [n_prompt] * num_samples
-            if self.bs == 2:
+            if self.bs == 2 and self.model.clip_trt is not None:
                 cond_crossattn, uncond_crossattn = self.model.get_learned_conditioning([cond_prompt, uncond_prompt]).chunk(2)
             else:
                 cond_crossattn = self.model.get_learned_conditioning(cond_prompt)
