@@ -51,6 +51,7 @@ class hackathon():
             })
 
         self.ddim_sampler = DDIMSampler(self.model)
+        self.attn_cache = {}
 
 
     def process(self, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, ddim_steps, guess_mode, strength, scale, seed, eta, low_threshold, high_threshold):
@@ -79,11 +80,16 @@ class hackathon():
 
             cond_prompt = [prompt + ', ' + a_prompt] * num_samples
             uncond_prompt = [n_prompt] * num_samples
-            if self.bs == 2 and self.model.clip_trt is not None:
+            key = str(cond_prompt) + str(uncond_prompt)
+            if key in self.attn_cache:
+                cond_crossattn, uncond_crossattn = self.attn_cache[key]
+            elif self.bs == 2 and self.model.clip_trt is not None:
                 cond_crossattn, uncond_crossattn = self.model.get_learned_conditioning([cond_prompt, uncond_prompt]).chunk(2)
+                self.attn_cache[key] = (cond_crossattn, uncond_crossattn)
             else:
                 cond_crossattn = self.model.get_learned_conditioning(cond_prompt)
                 uncond_crossattn = self.model.get_learned_conditioning(uncond_prompt)
+                self.attn_cache[key] = (cond_crossattn, uncond_crossattn)
             
             cond = {"c_concat": [control], "c_crossattn": [cond_crossattn]}
             un_cond = {"c_concat": None if guess_mode else [control], "c_crossattn": [uncond_crossattn]}
