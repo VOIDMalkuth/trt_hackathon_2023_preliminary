@@ -313,6 +313,10 @@ class DDIMSampler(object):
 
         
         x_prev = (math.sqrt(h_a_prev) / h_a_t_sqrt) * x + (math.sqrt(1. - h_a_prev) - math.sqrt(h_a_prev) / h_a_t_sqrt * h_sqrt_one_minus_at) * e_t 
+        
+        # keep rng same state
+        noise_like(x.shape, 'cpu', False)
+        
         return x_prev, None
 
     @torch.no_grad()
