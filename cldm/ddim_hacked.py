@@ -1,5 +1,6 @@
 """SAMPLING ONLY."""
 
+import math
 import torch
 import numpy as np
 from tqdm import tqdm
@@ -160,7 +161,7 @@ class DDIMSampler(object):
                 assert len(ucg_schedule) == len(time_range)
                 unconditional_guidance_scale = ucg_schedule[i]
 
-            outs = self.p_sample_ddim(img, cond, ts, index=index, use_original_steps=ddim_use_original_steps,
+            outs = self.p_sample_ddim_simplified(img, cond, ts, index=index, use_original_steps=ddim_use_original_steps,
                                       quantize_denoised=quantize_denoised, temperature=temperature,
                                       noise_dropout=noise_dropout, score_corrector=score_corrector,
                                       corrector_kwargs=corrector_kwargs,
@@ -231,6 +232,37 @@ class DDIMSampler(object):
         if noise_dropout > 0.:
             noise = torch.nn.functional.dropout(noise, p=noise_dropout)
         x_prev = a_prev.sqrt() * pred_x0 + dir_xt + noise
+        return x_prev, pred_x0
+    
+    @torch.no_grad()
+    def p_sample_ddim_simplified(self, x, c, t, index, repeat_noise=False, use_original_steps=False, quantize_denoised=False,
+                      temperature=1., noise_dropout=0., score_corrector=None, corrector_kwargs=None,
+                      unconditional_guidance_scale=1., unconditional_conditioning=None,
+                      dynamic_threshold=None):
+        b = 1
+        device='cuda'
+        assert self.model.batch_size == 2
+        
+        model_t, model_uncond = self.model.apply_model_bs2(x, t, c, unconditional_conditioning).chunk(2)
+        model_output = model_uncond + unconditional_guidance_scale * (model_t - model_uncond)
+
+        e_t = model_output
+
+        # select parameters corresponding to the currently considered timestep
+        alphas = self.ddim_alphas
+        alphas_prev = self.ddim_alphas_prev
+        sqrt_one_minus_alphas = self.ddim_sqrt_one_minus_alphas
+        # print(type(alphas), type(alphas_prev), type(sqrt_one_minus_alphas), type(sigmas))
+        h_sqrt_one_minus_at = sqrt_one_minus_alphas[index]
+        h_a_t_sqrt = math.sqrt(alphas[index])
+        h_a_prev = alphas_prev[index]
+
+        # current prediction for x_0
+        pred_x0 = (x - h_sqrt_one_minus_at * e_t) / h_a_t_sqrt
+
+        # direction pointing to x_t
+        dir_xt = math.sqrt(1. - h_a_prev) * e_t
+        x_prev = math.sqrt(h_a_prev) * pred_x0 + dir_xt
         return x_prev, pred_x0
 
     @torch.no_grad()
