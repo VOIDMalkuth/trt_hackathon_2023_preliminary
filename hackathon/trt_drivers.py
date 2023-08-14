@@ -342,3 +342,12 @@ class ClipTRT(TRTDriverCUDAGraphAsync):
         inputBuffers = [tokens.contiguous().cuda()]
         inference_results = self.do_inference(inputBuffers)
         return inference_results[0]
+    
+class FusedTRT(TRTDriverCUDAGraphAsync):
+    def fused_apply_model_bs2_simplified(self, x_noisy, context, hint, ts):
+        x = torch.cat((x_noisy, x_noisy), 0)
+        inputBuffers = [x.contiguous().cuda(), hint.contiguous().cuda(), ts.contiguous().cuda(), context.contiguous().cuda()]
+        inference_results = self.do_inference(inputBuffers)
+        if len(inference_results) == 1:
+            inference_results = inference_results[0]
+        return inference_results

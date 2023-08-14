@@ -1,6 +1,7 @@
 import gradio as gr
 import numpy as np
 import torch
+from torch import nn
 import random
 
 from cldm.model import create_model, load_state_dict
@@ -179,14 +180,60 @@ def export_clip_onnx(control_ldm_model):
             'other_states': {0: 'batch_size'},
         },
     )
+    
+
+class FusedCtrlAndUnet(nn.Module):
+  def __init__(self, controlnet, unet):
+    super().__init__()
+    self.controlnet = controlnet
+    self.unet = unet
+
+  def forward(self, x, hint, timesteps, context):
+    step1 = self.controlnet(x, hint, timesteps, context)
+    out = self.unet(x, timesteps, context, step1)
+    return out
+
+def export_fused_model(control_ldm_model):
+    fused_model = FusedCtrlAndUnet(control_ldm_model.control_model, control_ldm_model.model.diffusion_model)
+    fused_model.eval()
+    
+    hint = torch.randn(*IMAGE_HINT_SHAPE, dtype=torch.float32)
+    x_noisy = torch.randn(*X_NOISY_SHAPE, dtype=torch.float32)
+    timesteps = torch.tensor([500], dtype=torch.int32)
+    context = torch.randn(*CONTEXT_SHAPE, dtype=torch.float32)
+
+    out = fused_model(x=x_noisy, hint=hint, timesteps=timesteps, context=context)
+    
+    torch.onnx.export(
+        fused_model,
+        (x_noisy, hint, timesteps, context),
+        "onnx_models/fused_model/fused_model_static_shape.onnx",
+        export_params=True,
+        opset_version=17,
+        do_constant_folding=True,
+        input_names=['x_noisy', 'hint', 'timesteps', 'context'],
+        output_names=[
+            'eps'
+        ],
+        dynamic_axes={
+            # inputs
+            'x_noisy': {0: 'batch_size'},
+            'hint': {0: 'batch_size'},
+            'timesteps': {0: 'batch_size'},
+            'context': {0: 'batch_size'},
+            # outputs
+            'eps': {0: 'batch_size'},
+        }
+    )
 
 def main():
     control_ldm_model = create_model('./models/cldm_v15.yaml').cpu()
     control_ldm_model.load_state_dict(load_state_dict('/home/player/ControlNet/models/control_sd15_canny.pth', location='cuda'))
-    export_controlnet_onnx(control_ldm_model)
-    export_unet_onnx(control_ldm_model)
+    # export_controlnet_onnx(control_ldm_model)
+    # export_unet_onnx(control_ldm_model)
     export_vae_onnx(control_ldm_model)
     export_clip_onnx(control_ldm_model)
+    export_fused_model(control_ldm_model)
 
 if __name__ == "__main__":
     main()

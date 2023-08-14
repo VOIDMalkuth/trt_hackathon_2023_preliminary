@@ -18,7 +18,7 @@ from annotator.canny import CannyDetector
 from cldm.model import create_model, load_state_dict
 from cldm.ddim_hacked import DDIMSampler
 
-from hackathon.trt_drivers import VaeTRT, ClipTRT
+from hackathon.trt_drivers import VaeTRT, ClipTRT, FusedTRT
 from hackathon.fused_apply_model import FusedControlnetAndUnetTrt
 
 class hackathon():
@@ -40,7 +40,8 @@ class hackathon():
         else:
             self.bs = 2
             use_cuda_graph = True
-            fused_controlnet_and_unet_trt = FusedControlnetAndUnetTrt("trt_controlnet.plan", "trt_unet.plan", self.stream, bs=self.bs, use_cuda_graph=use_cuda_graph)
+            # fused_controlnet_and_unet_trt = FusedControlnetAndUnetTrt("trt_controlnet.plan", "trt_unet.plan", self.stream, bs=self.bs, use_cuda_graph=use_cuda_graph)
+            fused_controlnet_and_unet_trt = FusedTRT("trt_fused_model.plan", self.stream, bs=self.bs, use_cuda_graph=use_cuda_graph)
             vae_trt = VaeTRT("trt_vae_batch_1.plan", self.stream, bs=1, use_cuda_graph=use_cuda_graph)
             clip_trt = ClipTRT("trt_clip.plan", self.stream, bs=self.bs, use_cuda_graph=use_cuda_graph)
             self.model.updateTrtEngines({
