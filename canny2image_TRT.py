@@ -84,7 +84,7 @@ class hackathon():
             key = str(cond_prompt) + str(uncond_prompt)
             if key in self.attn_cache:
                 cond_crossattn, uncond_crossattn = self.attn_cache[key]
-            elif self.bs == 2 and self.model.clip_trt is not None:
+            elif self.bs == 2:
                 cond_crossattn, uncond_crossattn = self.model.get_learned_conditioning([cond_prompt, uncond_prompt]).chunk(2)
                 self.attn_cache[key] = (cond_crossattn, uncond_crossattn)
             else:
